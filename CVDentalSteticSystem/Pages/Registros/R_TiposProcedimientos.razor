@@ -1,0 +1,46 @@
+﻿@page "/TiposProcedimientos"
+
+@using Models;
+<h3>R_TiposProcedimientos</h3>
+
+@code{  
+    [Parameter]
+    public int TipoProcedimientoId { get; set; }
+
+    private TiposProcedimientos tiposProcedimientos = new TiposProcedimientos();
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+        Buscar();
+    }
+
+    public void Nuevo()
+    {
+        tiposProcedimientos = new TiposProcedimientos();
+    }
+
+    private void Buscar()
+    {
+        if (tiposProcedimientos.TipoProcedimientoId > 0)
+        {
+            var encontrado = CVDentalSteticSystem.BLL.TipoProcedimientoBLL.Buscar(tiposProcedimientos.TipoProcedimientoId);
+            if (encontrado != null)
+                this.tiposProcedimientos = encontrado;
+            else
+                toast.ShowWarning("No Encontrado");
+        }
+    }
+
+    public void Guardar()
+    {
+        bool guardo;
+        guardo = CVDentalSteticSystem.BLL.TipoProcedimientoBLL.Guardar();
+
+        if (guardo)
+        {
+            Nuevo();
+        }
+
+    }
+}
