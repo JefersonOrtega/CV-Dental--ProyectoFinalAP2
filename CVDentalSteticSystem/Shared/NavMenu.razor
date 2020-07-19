@@ -1,4 +1,5 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@inject AuthenticationStateProvider authenticationStateProvider
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">CVDentalSteticSystem</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -13,20 +14,26 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
             <NavLink class="nav-link" href="pacientes">
                 <span class="oi oi-person" aria-hidden="true"></span> Pacientes
             </NavLink>
         </li>
+
+        <li class="nav-item px-3">
+            @if (authenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
+            {
+                <NavLink class="nav-link" href="/logout?returnUrl=/" target="_top">
+                    
+                </NavLink> }
+            else
+            {
+                <NavLink class="nav-link" href="/LogInPage">
+                    <span class="oi oi-person" aria-hidden="true"></span> Login
+                </NavLink>
+            }
+
+        </li>
+
     </ul>
 </div>
 
