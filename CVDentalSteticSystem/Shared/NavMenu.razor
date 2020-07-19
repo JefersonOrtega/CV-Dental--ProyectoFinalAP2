@@ -13,17 +13,35 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="pacientes">
-                <span class="oi oi-person" aria-hidden="true"></span> Pacientes
+        <li class="nav nav-item px-3">
+            <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Registros
             </NavLink>
         </li>
+
+        @if (expandSubNav)
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="pacientes">
+                    <span class="oi oi-person" aria-hidden="true"></span> Pacientes
+                </NavLink>
+            </li>
+
+
+
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="usuarios">
+                    <span class="oi oi-person" aria-hidden="true"></span> Usuarios
+                </NavLink>
+            </li>
+        }
 
         <li class="nav-item px-3">
             @if (authenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
             {
                 <NavLink class="nav-link" href="/logout?returnUrl=/" target="_top">
-                    
+
                 </NavLink> }
             else
             {
@@ -34,6 +52,8 @@
 
         </li>
 
+
+
     </ul>
 </div>
 
@@ -41,6 +61,8 @@
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private bool expandSubNav;
 
     private void ToggleNavMenu()
     {

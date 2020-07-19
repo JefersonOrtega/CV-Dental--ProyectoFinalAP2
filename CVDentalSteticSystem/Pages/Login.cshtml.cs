@@ -8,13 +8,16 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Blazored.Toast;
+using Microsoft.AspNetCore.Components.Routing;
+
 namespace CVDentalSteticSystem.Pages
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
         public string ReturnUrl { get; set; }
-        //public BlazoredToasts toast { get; set; }
+        public BlazoredToasts toast { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string Usuario, string Contrasena)
         {
@@ -29,7 +32,7 @@ namespace CVDentalSteticSystem.Pages
             // In this example we just log the user in
             // (Always log the user in for this demo)
 
-            if (UsuariosBLL.ConfirmacionUsuario(Usuario, Contrasena))
+           if (UsuariosBLL.ConfirmacionUsuario(Usuario, Contrasena))
             {
                 var claims = new List<Claim>
                 {
@@ -55,6 +58,7 @@ namespace CVDentalSteticSystem.Pages
                     string error = ex.Message;
                 }
             }
+            
 
             return LocalRedirect(returnUrl);
         }

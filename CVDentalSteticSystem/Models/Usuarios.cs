@@ -12,13 +12,13 @@ namespace CVDentalSteticSystem.Models
         [Key]
         public int UsuarioId { get; set; }
         [Required(ErrorMessage = "Es necesario introducir una fecha")]
-        [Range(typeof(DateTime), minimum: "1/1/2020", maximum: "DateTime.Today.ToString()", ErrorMessage = "La fecha esta fuera de rango")] //Revisar
+        [Range(typeof(DateTime), minimum: "1/7/2020", maximum: "1/1/2060", ErrorMessage = "La fecha esta fuera de rango")]
         public DateTime Fecha { get; set; }
         [Required(ErrorMessage = "Es necesario introducir un nombre")]
         [StringLength(maximumLength: 50, ErrorMessage = "El nombre es muy largo")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "Es necesario introducir el nombre de usuario")]
-        [StringLength(maximumLength: 30, ErrorMessage = "El usuario es muy largo")]
+        [StringLength(maximumLength: 30, ErrorMessage = "El nombre de usuario es muy largo")]
         public string Usuario { get; set; }
         
         [Required(ErrorMessage = "Es necesario introducir una Contraseña")]

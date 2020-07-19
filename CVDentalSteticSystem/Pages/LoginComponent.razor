@@ -44,7 +44,7 @@
     ">
 
 
-        <h1 class="titulo">Inicio de Sesion</h1>
+        <h1 class="titulo">Inicio de Sesión</h1>
 
         <EditForm Model="Usuario">
             <div class="form-group">
@@ -59,7 +59,7 @@
 
             <div class="form-group">
                 <a class="btn btn-success btn-block"
-                   href="/login?paramUsername=@encode(Usuario.Usuario)&paramPassword=@encode(Usuario.Contrasena)" target="_top">Login</a>
+                   href="/login?Usuario=@encode(Usuario.Usuario)&Contrasena=@encode(Usuario.Contrasena)" target="_top">Login</a>
 
                 <a class="btn btn-danger btn-block" href="/">Volver al Home</a>
             </div>

@@ -24,7 +24,7 @@ namespace CVDentalSteticSystem.DAL
             modelBuilder.Entity<Usuarios>()
                 .HasData(new Models.Usuarios
                 {
-                    UsuarioId = 1,
+                    UsuarioId = 2,
                     Nombres = "admin",
                     Usuario = "admin",
                     Contrasena = Models.Usuarios.Encriptar("admin"),

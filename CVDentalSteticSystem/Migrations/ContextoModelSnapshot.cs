@@ -147,9 +147,9 @@ namespace CVDentalSteticSystem.Migrations
                     b.HasData(
                         new
                         {
-                            UsuarioId = 1,
+                            UsuarioId = 2,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 19, 1, 39, 27, 489, DateTimeKind.Local).AddTicks(808),
+                            Fecha = new DateTime(2020, 7, 19, 2, 33, 18, 413, DateTimeKind.Local).AddTicks(1117),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"

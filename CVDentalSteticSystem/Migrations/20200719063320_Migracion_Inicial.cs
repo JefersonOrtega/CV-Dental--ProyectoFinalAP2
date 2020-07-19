@@ -82,7 +82,7 @@ namespace CVDentalSteticSystem.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Fecha", "NivelAcceso", "Nombres", "Usuario" },
-                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 19, 1, 39, 27, 489, DateTimeKind.Local).AddTicks(808), "Administrador", "admin", "admin" });
+                values: new object[] { 2, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 19, 2, 33, 18, 413, DateTimeKind.Local).AddTicks(1117), "Administrador", "admin", "admin" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

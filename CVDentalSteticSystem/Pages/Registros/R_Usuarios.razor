@@ -1,0 +1,175 @@
+﻿@page "/Usuarios"
+
+@using Models
+@using CVDentalSteticSystem.BLL
+
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated 
+    && EsAutorizado)
+{
+
+    <EditForm Model="Usuario" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <div class="card">
+            <div class="card-header">
+                <h3>Registro de Usuarios</h3>
+            </div>
+
+            <div class="card-body">
+                <form>
+                    @*UsuarioId*@
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Usuario Id</label>
+                                <div class="input-group">
+                                    <InputNumber @bind-Value="Usuario.UsuarioId" class="form-control col-4" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Fecha*@
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <InputDate @bind-Value="Usuario.Fecha" class="form-control" />
+                    </div>
+
+
+                    @*Nombres*@
+                    <div class="form-group">
+                        <label>Nombres</label>
+                        <InputText @bind-Value="Usuario.Nombres" class="form-control" />
+                        <ValidationMessage For="@(() => Usuario.Nombres)" />
+                    </div>
+
+                    @*Usuario*@
+                    <div class="form-group">
+                        <label>Nombre de Usuario</label>
+                        <InputText @bind-Value="Usuario.Usuario" class="form-control" />
+                        <ValidationMessage For="@(() => Usuario.Usuario)" />
+                    </div>
+
+                    @*Contraseña*@
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <InputText @bind-Value="Usuario.Contrasena" class="form-control" />
+                        <ValidationMessage For="@(() => Usuario.Contrasena)" />
+                    </div>
+
+
+                    @*Nivel de Acceso*@
+                    <div class="form-group">
+                        <label>Nivel de acceso</label>
+                        <InputSelect @bind-Value="Usuario.NivelAcceso" class="form-control">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Normal">Normal</option>
+                        </InputSelect>
+                        <ValidationMessage For="@(() => Usuario.NivelAcceso)" />
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="form-group text-center" display: in line-block>
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int PacienteId { get; set; }
+
+    private Usuarios Usuario = new Usuarios();
+
+    public bool EsAutorizado = false;
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+
+        Buscar();
+
+        EsAutorizado = AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador");
+    }
+
+    public void Nuevo()
+    {
+        Usuario = new Usuarios();
+    }
+
+    private void Buscar()
+    {
+        if (Usuario.UsuarioId > 0)
+        {
+            var encontrado = UsuariosBLL.Buscar(Usuario.UsuarioId);
+
+            if (encontrado != null)
+                this.Usuario = encontrado;
+            else
+                toast.ShowWarning("No encontrado");
+        }
+    }
+
+    public void Guardar()
+    {
+        bool guardo;
+        guardo = UsuariosBLL.Guardar(Usuario);
+
+        if (guardo)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado Correctamente");
+        }
+        else
+        {
+            toast.ShowError("No fue Posible Guardar");
+        }
+    }
+
+    public void Eliminar()
+    {
+        bool elimino;
+        elimino = UsuariosBLL.Eliminar(Usuario.UsuarioId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado Correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+    }
