@@ -147,8 +147,11 @@
 
         Buscar();
 
-        EsAutorizado = AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador");
-        EsAutorizado = AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal");
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") || 
+            AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
+        {
+            EsAutorizado = true;
+        }
     }
 
     public void Nuevo()

@@ -4,7 +4,28 @@
 @using CVDentalSteticSystem.BLL
 
 @inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
+  && EsAutorizado)
+{
     <EditForm Model="tipoProcedimiento" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <div class="card">
@@ -62,6 +83,7 @@
             </div>
         </div>
     </EditForm>
+}
 
 @code{
     [Parameter]
@@ -69,10 +91,19 @@
 
     private TiposProcedimientos tipoProcedimiento = new TiposProcedimientos();
 
+    public bool EsAutorizado = false;
+
     protected override void OnInitialized()
     {
         Nuevo();
+
         Buscar();
+
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
+            AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
+        {
+            EsAutorizado = true;
+        }
     }
 
     public void Nuevo()
