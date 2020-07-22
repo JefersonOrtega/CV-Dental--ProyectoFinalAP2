@@ -1,46 +1,125 @@
 ﻿@page "/TiposProcedimientos"
 
 @using Models;
-<h3>R_TiposProcedimientos</h3>
+@using CVDentalSteticSystem.BLL
 
-@code{  
-    /*   [Parameter]
+@inject IToastService toast
+
+    <EditForm Model="tipoProcedimiento" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <div class="card">
+            <div class="card-header">
+                <h3>Registro de Tipos de Procedimientos</h3>
+            </div>
+
+            <div class="card-body">
+                <form>
+                    @*TipoProcedimientoId*@
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Paciente Id</label>
+                                <div class="input-group">
+                                    <InputNumber @bind-Value="tipoProcedimiento.TipoProcedimientoId" class="form-control col-4" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Nombre Procedimiento*@
+                    <div class="form-group">
+                        <label>Nombre de Procedimiento</label>
+                        <InputText @bind-Value="tipoProcedimiento.NombreProcedimiento" class="form-control" />
+                        <ValidationMessage For="@(()=>tipoProcedimiento.NombreProcedimiento)" />
+                    </div>
+
+                    @*Descripcopm*@
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <InputText @bind-Value="tipoProcedimiento.Descripcion" class="form-control" />
+                        <ValidationMessage For="@(()=>tipoProcedimiento.Descripcion)" />
+                    </div>
+
+                    @*Precio*@
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <InputNumber @bind-Value="tipoProcedimiento.Precio" class="form-control" />
+                        <ValidationMessage For="@(()=>tipoProcedimiento.Precio)" />
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="form-group text-center" display: in line-block>
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+
+@code{
+    [Parameter]
     public int TipoProcedimientoId { get; set; }
 
-    private TiposProcedimientos tiposProcedimientos = new TiposProcedimientos();
+    private TiposProcedimientos tipoProcedimiento = new TiposProcedimientos();
 
     protected override void OnInitialized()
     {
         Nuevo();
-        //Buscar();
+        Buscar();
     }
 
     public void Nuevo()
     {
-        tiposProcedimientos = new TiposProcedimientos();
+        tipoProcedimiento = new TiposProcedimientos();
     }
 
- private void Buscar()
+    private void Buscar()
     {
-        if (tiposProcedimientos.TipoProcedimientoId > 0)
+        if (tipoProcedimiento.TipoProcedimientoId > 0)
         {
-            var encontrado = CVDentalSteticSystem.BLL.TipoProcedimientoBLL.Buscar(tiposProcedimientos.TipoProcedimientoId);
+            var encontrado = CVDentalSteticSystem.BLL.TipoProcedimientoBLL.Buscar(tipoProcedimiento.TipoProcedimientoId);
             if (encontrado != null)
-                this.tiposProcedimientos = encontrado;
-           // else
-               // toast.ShowWarning("No Encontrado");
+                this.tipoProcedimiento = encontrado;
+            else
+                toast.ShowWarning("No Encontrado");
         }
     }
 
     public void Guardar()
     {
         bool guardo;
-        guardo = CVDentalSteticSystem.BLL.TipoProcedimientoBLL.Guardar();
+        guardo = TipoProcedimientoBLL.Guardar(tipoProcedimiento);
 
         if (guardo)
         {
             Nuevo();
+            toast.ShowSuccess("Guardado Correctamente");
         }
+        else
+        {
+            toast.ShowError("No fue Posible Guardar");
+        }
+    }
 
-    }*/
+    public void Eliminar()
+    {
+        bool elimino;
+        elimino = TipoProcedimientoBLL.Eliminar(tipoProcedimiento.TipoProcedimientoId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado Correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
 }
