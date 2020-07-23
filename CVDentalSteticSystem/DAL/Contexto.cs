@@ -12,6 +12,7 @@ namespace CVDentalSteticSystem.DAL
         public DbSet<Pacientes> Pacientes { get; set; }
         public DbSet<Citas> Citas { get; set; }
         public DbSet<TiposProcedimientos> TiposProcedimientos { get; set; }
+        public DbSet<Procedimientos> Procedimientos { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -24,7 +25,7 @@ namespace CVDentalSteticSystem.DAL
             modelBuilder.Entity<Usuarios>()
                 .HasData(new Models.Usuarios
                 {
-                    UsuarioId = 2,
+                    UsuarioId = 1,
                     Nombres = "admin",
                     Usuario = "admin",
                     Contrasena = Models.Usuarios.Encriptar("admin"),

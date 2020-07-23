@@ -87,7 +87,8 @@
                         <label>Nivel de acceso</label>
                         <InputSelect @bind-Value="Usuario.NivelAcceso" class="form-control">
                             <option value="Administrador">Administrador</option>
-                            <option value="Normal">Normal</option>
+                            <option value="Normal">Odontologo/a</option>
+                            <option value="Normal">Secretario/a</option>
                         </InputSelect>
                         <ValidationMessage For="@(() => Usuario.NivelAcceso)" />
                     </div>

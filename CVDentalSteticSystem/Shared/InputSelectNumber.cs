@@ -1,33 +1,34 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RegistroPersonas.Shared
+namespace CVDentalSteticSystem.Shared
 {
-    public class InputSelectNumber<T> : Microsoft.AspNetCore.Components.Forms.InputSelect<T>
+    public class InputSelectNumber<T> : InputSelect<T>
     {
-    protected override bool TryParseValueFromString(string value, out T result, out string validationErrorMessage)
-    {
-        if (typeof(T) == typeof(int))
+        protected override bool TryParseValueFromString(string value, out T result, out string validationErrorMessage)
         {
-            if (int.TryParse(value, out var resultInt))
+            if (typeof(T) == typeof(int))
             {
-                result = (T)(object)resultInt;
-                validationErrorMessage = null;
-                return true;
+                if (int.TryParse(value, out var resultInt))
+                {
+                    result = (T)(object)resultInt;
+                    validationErrorMessage = null;
+                    return true;
+                }
+                else
+                {
+                    result = default;
+                    validationErrorMessage = "The chosen value is not a valid number.";
+                    return false;
+                }
             }
             else
             {
-                result = default;
-                validationErrorMessage = "The chosen value is not a valid number.";
-                return false;
+                return base.TryParseValueFromString(value, out result, out validationErrorMessage);
             }
         }
-        else
-        {
-            return base.TryParseValueFromString(value, out result, out validationErrorMessage);
-        }
     }
-}
 }
