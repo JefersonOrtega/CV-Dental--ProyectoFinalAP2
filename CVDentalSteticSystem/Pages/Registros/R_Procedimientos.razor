@@ -74,9 +74,24 @@
                                 <option value="@auxiliar.TipoProcedimientoId">@auxiliar.NombreProcedimiento</option>
                                 }
                         </InputSelectNumber>
-                        <ValidationMessage For="@(()=>Procedimiento.PacienteId)" />
-
+                        <ValidationMessage For="@(()=>Procedimiento.TipoProcedimientoId)" />
                     </div>
+
+
+                    @*Estado*@
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <InputSelect @bind-Value="Procedimiento.Estado" class="form-control">
+                            <option value="En proceso">En Proceso</option>
+                            <option value="Concluido">Concluido</option>
+                        </InputSelect>
+                        <ValidationMessage For="@(() => Procedimiento.Estado)" />
+                    </div>
+
+
+
+
+
 
                 </form>
 
