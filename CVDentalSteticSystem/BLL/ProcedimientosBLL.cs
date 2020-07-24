@@ -81,13 +81,13 @@ namespace CVDentalSteticSystem.BLL
 
                 contexto.Database.ExecuteSqlRaw($"Delete FROM ProcedimientosDetalle Where ProcedimientoId = {procedimiento.ProcedimientoId}");
 
-                foreach (var item in orden.OrdenesDetalle)
+                foreach (var item in procedimiento.ProcedimientoDetalle)
                 {
-                    contexto.Database.ExecuteSqlRaw($"INSERT INTO OrdenesDetalle (OrdenId, ProductoId, Cantidad, Costo) values({item.OrdenId},{orden.OrdenId},{item.Cantidad},{item.Costo})");
+                    contexto.Database.ExecuteSqlRaw($"INSERT INTO ProcedimientosDetalles (ProcedimientosDetalleId, ProcedimientoId, CitaId, Descripcion) values({item.ProcedimientosDetalleId},{item.ProcedimientoId},{1},{item.Descripcion})"); //Donde esta uno, colocar CitaId luego de creada Citas
                     contexto.Entry(item).State = EntityState.Added;
                 }
 
-                contexto.Entry(orden).State = EntityState.Modified;
+                contexto.Entry(procedimiento).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)

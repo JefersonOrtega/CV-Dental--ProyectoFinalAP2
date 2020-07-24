@@ -57,7 +57,7 @@
                             <option value="" disabled selected>Seleccione un Paciente</option>
                             @foreach (var auxiliar in CargarPacientes())
                                 {
-                                <option value="@auxiliar.PacienteId">@auxiliar.Nombres"+"@auxiliar.Apellidos</option>
+                                <option value="@auxiliar.PacienteId">@auxiliar.Nombres @auxiliar.Apellidos</option>
                                 }
                         </InputSelectNumber>
                         <ValidationMessage For="@(()=>Procedimiento.PacienteId)" />
@@ -88,6 +88,62 @@
                         <ValidationMessage For="@(() => Procedimiento.Estado)" />
                     </div>
 
+                    @*ProcedimientosDetalle*@
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-row">
+                                @*CitaId
+                                <div class="form-group" col-4>
+                                    <label>CitaId</label>
+                                    <InputSelectNumber @bind-Value="" class="form-control" ">
+                                        @foreach (var item in )
+                                            {
+                                            <option value="@item.Id">@item.Descripcion</option>
+                                            }
+                                    </InputSelectNumber>
+                                    <ValidationMessage For="@(()=>)" />
+                                </div>*@
+
+                                @*Descripción*@
+                                <div class="form-group ">
+                                    <label>Descripción</label>
+                                    <div class="input-group">
+                                        <InputText @bind-Value="Descripcion" class="form-control" />
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">
+                                                <i class="oi oi-plus" aria-hidden="true" /> Agregar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">CitaId</th>
+                                        <th scope="col">Paciente</th>
+                                        <th scope="col">Descripción</th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Procedimiento.ProcedimientoDetalle)
+                                    {
+                                        <tr>
+                                            <td>1</td>
+                                            <td>@paciente.Nombres + @paciente.Apellidos</td>
+                                            <td>@item.Descripcion</td>
+                                        
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
 
 
 
@@ -114,6 +170,14 @@
 
     private Procedimientos Procedimiento = new Procedimientos();
     public bool EsAutorizado = false;
+    private string Descripcion = "";
+
+    Pacientes paciente;
+
+    public void BuscarPaciente()
+    {
+        paciente = PacientesBLL.Buscar(Procedimiento.PacienteId);
+    }
 
     protected override void OnInitialized()
     {
@@ -177,6 +241,29 @@
 
         return lista;
     }
+
+    private void AgregarDetalle()
+    {
+
+        if (Descripcion!="")
+        {
+            Procedimiento.ProcedimientoDetalle.Add(new ProcedimientosDetalles
+            {
+                ProcedimientosDetalleId = new ProcedimientosDetalles().ProcedimientosDetalleId,
+                ProcedimientoId = Procedimiento.ProcedimientoId,
+                //CitaId = citaId,
+                Descripcion = this.Descripcion
+            });
+        }
+        else
+        {
+            toast.ShowWarning("Es Necesario digitar una cantidad");
+        }
+
+
+
+    }
+
 
     public void Guardar()
     {

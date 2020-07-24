@@ -12,6 +12,7 @@ namespace CVDentalSteticSystem.Models
         public int ProcedimientosDetalleId { get; set; }
         public int ProcedimientoId { get; set; }
         public int CitaId { get; set; }
+        [Required(ErrorMessage ="Es necesario introducir una descripción")]
         public string Descripcion { get; set; } //Lo que se ha hecho...
 
     }
