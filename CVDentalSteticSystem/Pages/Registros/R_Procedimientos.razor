@@ -82,6 +82,7 @@
                     <div class="form-group">
                         <label>Estado</label>
                         <InputSelect @bind-Value="Procedimiento.Estado" class="form-control">
+                            <option value="" disabled selected>Seleccione un Estado</option>
                             <option value="En proceso">En Proceso</option>
                             <option value="Concluido">Concluido</option>
                         </InputSelect>
@@ -108,7 +109,7 @@
                                 <div class="form-group ">
                                     <label>Descripción</label>
                                     <div class="input-group">
-                                        <InputText @bind-Value="Descripcion" class="form-control" />
+                                        <InputText @bind-Value="Descripcion" class="form-control"/>
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">
                                                 <i class="oi oi-plus" aria-hidden="true" /> Agregar
@@ -131,8 +132,9 @@
                                     @foreach (var item in Procedimiento.ProcedimientoDetalle)
                                     {
                                         <tr>
+                                            
                                             <td>1</td>
-                                            <td>@paciente.Nombres + @paciente.Apellidos</td>
+                                            <td>@paciente.Nombres  @paciente.Apellidos</td>
                                             <td>@item.Descripcion</td>
                                         
                                         </tr>
@@ -190,6 +192,7 @@
         {
             EsAutorizado = true;
         }
+
     }
 
     public void Nuevo()
@@ -204,7 +207,11 @@
             var encontrado = ProcedimientosBLL.Buscar(Procedimiento.ProcedimientoId);
 
             if (encontrado != null)
+            {
                 this.Procedimiento = encontrado;
+
+
+            }
             else
                 toast.ShowWarning("No encontrado");
         }
@@ -260,7 +267,7 @@
             toast.ShowWarning("Es Necesario digitar una cantidad");
         }
 
-
+        BuscarPaciente();
 
     }
 
