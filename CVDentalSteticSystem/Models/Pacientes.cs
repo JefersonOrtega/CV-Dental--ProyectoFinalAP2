@@ -30,5 +30,6 @@ namespace CVDentalSteticSystem.Models
         public string Alergias { get; set; }
         public decimal Balance { get; set; }
 
+
     }
 }

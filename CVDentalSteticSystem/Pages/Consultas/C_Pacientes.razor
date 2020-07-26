@@ -1,0 +1,156 @@
+﻿@page "/ConsultaPacientes"
+
+@using Models
+@using CVDentalSteticSystem.BLL
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h3>Consulta de Pacientes</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="form-group col-4">
+                <label>Filtro: </label>
+                <select @bind="eleccion" class="form-control  col-4" placeholder="Seleccione un Filtro">
+                    <option value="0">Todo</option>
+                    <option value="1">Id</option>
+                    <option value="2">Nombres</option>
+                    <option value="3">Apellidos</option>
+                    <option value="4">Dirección</option>
+                    <option value="5">Balance</option>
+                </select>
+            </div>
+
+            <div class="form-group   col-6">
+                <label>Criterio</label>
+                <div class="input-group">
+                    <input type="text" @bind=" criterio" class="form-control" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Paciente Id</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>FechaRegistro</th>
+                    <th>Seguro Médico</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in lista)
+                {
+                    <tr>
+                        <td>@item.PacienteId</td>
+                        <td>@item.Nombres</td>
+                        <td>@item.Apellidos</td>
+                        <td>@item.Direccion</td>
+                        <td>@item.Telefono</td>
+                        <td>@item.Email</td>
+                        <td>@item.FechaNacimiento</td>
+                        <td>@item.SeguroMedico</td>
+                        <td>@item.Balance</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div class="card-footer">
+        <div class="form-group">
+            <label>Total Balances</label>
+            <input type="text" readonly @bind="TotalBalances" class="form-control" />
+        </div>
+    </div>
+</div>
+
+
+@code {
+    List<Pacientes> lista = new List<Pacientes>();
+    private string eleccion;
+    private string criterio;
+    decimal TotalBalances = 0;
+
+    protected override void OnInitialized()
+    {
+        lista = PacientesBLL.GetList(x => true);
+        ObtenerBalances(lista);
+    }
+
+    private void Consultar()
+    {
+        int seleccion = Convert.ToInt32(eleccion);
+
+        if (criterio.Trim().Length > 0)
+        {
+            switch (seleccion)
+            {
+                case 0:
+                    {
+                        lista = PacientesBLL.GetList(x => true);
+                        ObtenerBalances(lista);
+                        break;
+                    }
+                case 1: //id
+                    {
+                        int id = int.Parse(criterio);
+                        lista = PacientesBLL.GetList(p => p.PacienteId == id);
+                        ObtenerBalances(lista);
+                        break;
+
+                    }
+                case 2: //Nombres
+                    {
+                        lista = PacientesBLL.GetList(p => p.Nombres.ToLower().Contains(criterio.ToLower()));
+                        ObtenerBalances(lista);
+                        break;
+                    }
+                case 3: //Apellidos
+                    {
+                        lista = PacientesBLL.GetList(p => p.Apellidos.ToLower().Contains(criterio.ToLower()));
+                        ObtenerBalances(lista);
+                        break;
+                    }
+                case 4: //Direccion
+                    {
+                        lista = PacientesBLL.GetList(p => p.Direccion.ToLower() == criterio.ToLower());
+                        ObtenerBalances(lista);
+                        break;
+                    }
+                case 5: //Balance
+                    {
+                        decimal balance = Convert.ToDecimal(criterio);
+                        lista = PacientesBLL.GetList(p => p.Balance == balance);
+                        ObtenerBalances(lista);
+                        break;
+                    }
+
+            }
+        }
+        else
+        {
+            lista = PacientesBLL.GetList(x => true);
+            ObtenerBalances(lista);
+        }
+    }
+
+    public void ObtenerBalances(List<Pacientes> listaProductos)
+    {
+        TotalBalances = 0;
+        foreach (var item in listaProductos)
+        {
+            TotalBalances += item.Balance;
+        }
+    }
+}

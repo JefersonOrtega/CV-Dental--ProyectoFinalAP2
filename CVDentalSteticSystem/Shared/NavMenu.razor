@@ -16,12 +16,12 @@
             </NavLink>
         </li>
         <li class="nav nav-item px-3">
-            <NavLink class="nav-link" @onclick="()=>expandSubNav = !expandSubNav">
+            <NavLink class="nav-link" @onclick="()=>expandSubNavr = !expandSubNavr">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Registros
             </NavLink>
         </li>
 
-        @if (expandSubNav)
+        @if (expandSubNavr)
         {
             <li class="nav-item px-3">
                 <NavLink class="nav-link" href="pacientes">
@@ -49,6 +49,46 @@
             </li>
         }
 
+        <div class="@NavMenuCssClassc" @onclick="ToggleNavMenuc">
+            <ul class="nav flex-column">
+                <li class="nav nav-item px-3">
+                    <NavLink class="nav-link" @onclick="()=>expandSubNavc = !expandSubNavc">
+                        <span class="oi oi-zoom-in" aria-hidden="true"></span> Consultas
+                    </NavLink>
+                </li>
+
+                @if (expandSubNavc)
+                {
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="consultapacientes">
+                            <span class="oi oi-person" aria-hidden="true"></span> Pacientes
+                        </NavLink>
+                    </li>
+
+                    @* <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="tiposprocedimientos">
+                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> TiposProcedimientos
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="procedimientos">
+                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Procedimientos
+                        </NavLink>
+                    </li>
+
+
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="usuarios">
+                            <span class="oi oi-person" aria-hidden="true"></span> Usuarios
+                        </NavLink>
+                    </li>*@
+                }
+            </ul>
+        </div>
+
+        
+
         <li class="nav-item px-3">
             @if (authenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
             {
@@ -68,17 +108,26 @@
 
 
     </ul>
-</div>
+        </div>
+
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenur = true;
+    private bool collapseNavMenuc = true;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuCssClass => collapseNavMenur ? "collapse" : null;
+    private string NavMenuCssClassc => collapseNavMenuc ? "collapse" : null;
 
-    private bool expandSubNav;
+    private bool expandSubNavr;
+    private bool expandSubNavc;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        collapseNavMenur = !collapseNavMenur;
+    }
+
+    private void ToggleNavMenuc()
+    {
+        collapseNavMenuc = !collapseNavMenuc;
     }
 }
