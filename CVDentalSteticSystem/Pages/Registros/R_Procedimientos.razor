@@ -1,4 +1,6 @@
 ﻿@page "/Procedimientos"
+@page "/Procedimientos/{ProcedimientoId:int}"
+
 
 @using Models
 @using CVDentalSteticSystem.BLL
@@ -24,7 +26,7 @@
 </AuthorizeView>
 
 @if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
-  && EsAutorizado)
+ && EsAutorizado)
 {
     <EditForm Model="Procedimiento" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
@@ -94,22 +96,22 @@
                         <div class="card-body">
                             <div class="form-row">
                                 @*CitaId
-                                <div class="form-group" col-4>
-                                    <label>CitaId</label>
-                                    <InputSelectNumber @bind-Value="" class="form-control" ">
-                                        @foreach (var item in )
-                                            {
-                                            <option value="@item.Id">@item.Descripcion</option>
-                                            }
-                                    </InputSelectNumber>
-                                    <ValidationMessage For="@(()=>)" />
-                                </div>*@
+                    <div class="form-group" col-4>
+                        <label>CitaId</label>
+                        <InputSelectNumber @bind-Value="" class="form-control" ">
+                            @foreach (var item in )
+                                {
+                                <option value="@item.Id">@item.Descripcion</option>
+                                }
+                        </InputSelectNumber>
+                        <ValidationMessage For="@(()=>)" />
+                    </div>*@
 
                                 @*Descripción*@
                                 <div class="form-group ">
                                     <label>Descripción</label>
                                     <div class="input-group">
-                                        <InputText @bind-Value="Descripcion" class="form-control"/>
+                                        <InputText @bind-Value="Descripcion" class="form-control" />
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">
                                                 <i class="oi oi-plus" aria-hidden="true" /> Agregar
@@ -125,18 +127,23 @@
                                         <th scope="col">CitaId</th>
                                         <th scope="col">Paciente</th>
                                         <th scope="col">Descripción</th>
-                                    
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Procedimiento.ProcedimientoDetalle)
                                     {
                                         <tr>
-                                            
+
                                             <td>1</td>
                                             <td>@paciente.Nombres  @paciente.Apellidos</td>
                                             <td>@item.Descripcion</td>
-                                        
+                                            <td>
+                                                <button type="button" class="btn btn-danger" @onclick="@(() => EliminarDetalle(item))">
+                                                    <span class="oi oi-x col"></span>
+                                                </button>
+                                            </td>
+
                                         </tr>
                                     }
 
@@ -145,10 +152,11 @@
                         </div>
                     </div>
 
-
-
-
-
+                    @*Monto*@
+                    <div class="form-group">
+                        <label>Monto</label>
+                        <InputNumber readOnly @bind-Value="Procedimiento.Monto" class="form-control"/>
+                    </div>
 
 
                 </form>
@@ -193,6 +201,7 @@
             EsAutorizado = true;
         }
 
+
     }
 
     public void Nuevo()
@@ -209,8 +218,7 @@
             if (encontrado != null)
             {
                 this.Procedimiento = encontrado;
-
-
+                BuscarPaciente();
             }
             else
                 toast.ShowWarning("No encontrado");
@@ -252,23 +260,27 @@
     private void AgregarDetalle()
     {
 
-        if (Descripcion!="")
+        if (Descripcion != "")
         {
             Procedimiento.ProcedimientoDetalle.Add(new ProcedimientosDetalles
             {
-                ProcedimientosDetalleId = new ProcedimientosDetalles().ProcedimientosDetalleId,
-                ProcedimientoId = Procedimiento.ProcedimientoId,
+                //ProcedimientoId = Procedimiento.ProcedimientoId,
                 //CitaId = citaId,
                 Descripcion = this.Descripcion
             });
         }
         else
         {
-            toast.ShowWarning("Es Necesario digitar una cantidad");
+            toast.ShowWarning("Es Necesario introducir una descripción");
         }
 
         BuscarPaciente();
 
+    }
+
+    public void EliminarDetalle(ProcedimientosDetalles detalle)
+    {
+        Procedimiento.ProcedimientoDetalle.Remove(detalle);
     }
 
 

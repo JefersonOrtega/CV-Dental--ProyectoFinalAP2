@@ -53,6 +53,7 @@
             @if (authenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
             {
                 <NavLink class="nav-link" href="/logout?returnUrl=/" target="_top">
+                    Cerrar Sesión
 
                 </NavLink> }
             else

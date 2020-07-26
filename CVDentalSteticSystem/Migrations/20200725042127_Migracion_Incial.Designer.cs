@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVDentalSteticSystem.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200724044914_Migracion_Secundaria")]
-    partial class Migracion_Secundaria
+    [Migration("20200725042127_Migracion_Incial")]
+    partial class Migracion_Incial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,7 +133,7 @@ namespace CVDentalSteticSystem.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProcedimeintoId")
+                    b.Property<int?>("ProcedimeintoDetalleId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ProcedimientoId")
@@ -141,7 +141,7 @@ namespace CVDentalSteticSystem.Migrations
 
                     b.HasKey("ProcedimientosDetalleId");
 
-                    b.HasIndex("ProcedimeintoId");
+                    b.HasIndex("ProcedimeintoDetalleId");
 
                     b.ToTable("ProcedimientosDetalles");
                 });
@@ -204,7 +204,7 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 24, 0, 49, 13, 949, DateTimeKind.Local).AddTicks(4051),
+                            Fecha = new DateTime(2020, 7, 25, 0, 21, 27, 82, DateTimeKind.Local).AddTicks(2193),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"
@@ -215,7 +215,8 @@ namespace CVDentalSteticSystem.Migrations
                 {
                     b.HasOne("CVDentalSteticSystem.Models.Procedimientos", null)
                         .WithMany("ProcedimientoDetalle")
-                        .HasForeignKey("ProcedimeintoId");
+                        .HasForeignKey("ProcedimeintoDetalleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

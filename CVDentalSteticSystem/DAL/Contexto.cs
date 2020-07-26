@@ -33,6 +33,13 @@ namespace CVDentalSteticSystem.DAL
                     Fecha = DateTime.Now
                 });
 
+
+            modelBuilder.Entity<Procedimientos>()
+                .HasMany(p => p.ProcedimientoDetalle)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+
         }
     }
 }

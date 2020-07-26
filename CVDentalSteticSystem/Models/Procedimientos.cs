@@ -19,12 +19,12 @@ namespace CVDentalSteticSystem.Models
         public int TipoProcedimientoId { get; set; }
         [Required(ErrorMessage ="Es necesario seleccionar un estado")]
         public string Estado { get; set; }
-        [Required(ErrorMessage = "Es necesario introducir un Monto")]
+        
         public decimal Monto { get; set; }
         public bool EsCobrado { get; set; } //Si esta cobrado o no
         //public int UsuarioId { get; set; }
 
-        [ForeignKey("ProcedimeintoId")]
+        [ForeignKey("ProcedimeintoDetalleId")]
         public virtual List<ProcedimientosDetalles> ProcedimientoDetalle { get; set; } = new List<ProcedimientosDetalles>();
     }
 }

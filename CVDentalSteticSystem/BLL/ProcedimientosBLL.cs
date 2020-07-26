@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Unity.Injection;
 
 namespace CVDentalSteticSystem.BLL
 {
@@ -46,10 +47,15 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
+                TiposProcedimientos tipoProcedimiento = TipoProcedimientoBLL.Buscar(procedimiento.TipoProcedimientoId);
+                procedimiento.Monto = tipoProcedimiento.Precio;
+
                 Pacientes paciente = PacientesBLL.Buscar(procedimiento.PacienteId);
                 paciente.Balance += procedimiento.Monto;
 
+
                 contexto.Procedimientos.Add(procedimiento);
+                contexto.Entry(paciente).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -73,21 +79,32 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
+                TiposProcedimientos tipoProcedimiento = TipoProcedimientoBLL.Buscar(procedimiento.TipoProcedimientoId);
+                procedimiento.Monto = tipoProcedimiento.Precio;
+
                 Pacientes paciente = PacientesBLL.Buscar(procedimiento.PacienteId);
                 paciente.Balance -= anterior.Monto; //todo: Revisar funcionamiento
                 paciente.Balance += procedimiento.Monto;
 
 
-
-                contexto.Database.ExecuteSqlRaw($"Delete FROM ProcedimientosDetalle Where ProcedimientoId = {procedimiento.ProcedimientoId}");
-
-                foreach (var item in procedimiento.ProcedimientoDetalle)
+                foreach(var item in anterior.ProcedimientoDetalle)
                 {
-                    contexto.Database.ExecuteSqlRaw($"INSERT INTO ProcedimientosDetalles (ProcedimientosDetalleId, ProcedimientoId, CitaId, Descripcion) values({item.ProcedimientosDetalleId},{item.ProcedimientoId},{1},{item.Descripcion})"); //Donde esta uno, colocar CitaId luego de creada Citas
-                    contexto.Entry(item).State = EntityState.Added;
+                    if(!procedimiento.ProcedimientoDetalle.Exists(p=>p.ProcedimientosDetalleId == item.ProcedimientosDetalleId)){
+                        contexto.Entry(item).State = EntityState.Deleted;
+                    }
                 }
 
+                foreach(var item in procedimiento.ProcedimientoDetalle)
+                {
+                    if (item.ProcedimientosDetalleId == 0)
+                        contexto.Entry(item).State = EntityState.Added;
+                    else
+                        contexto.Entry(item).State = EntityState.Modified;
+                }
+
+                
                 contexto.Entry(procedimiento).State = EntityState.Modified;
+                contexto.Entry(paciente).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -116,8 +133,13 @@ namespace CVDentalSteticSystem.BLL
                 if (procedimiento != null)
                 {
                     contexto.Procedimientos.Remove(procedimiento);
+
+
+
+                    contexto.Entry(paciente).State = EntityState.Modified;
                     paso = contexto.SaveChanges() > 0;
                 }
+
             }
             catch (Exception)
             {
@@ -137,8 +159,10 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
-                procedimiento = contexto.Procedimientos.Find(id);
-
+                procedimiento = contexto.Procedimientos
+                    .Where(p => p.ProcedimientoId == id)
+                    .Include(p => p.ProcedimientoDetalle)
+                    .FirstOrDefault();
             }
             catch (Exception)
             {
