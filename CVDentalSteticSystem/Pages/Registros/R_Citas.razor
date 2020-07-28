@@ -1,0 +1,165 @@
+﻿@page "/Citas"
+
+@using CVDentalSteticSystem.BLL
+
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
+  && EsAutorizado)
+{
+    <EditForm Model="Cita" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <div class="card">
+            <div class="card-header">
+                <h3>Registro de Pacientes</h3>
+            </div>
+
+            <div class="card-body">
+                <form>
+                    @*CitaId*@
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Cita Id</label>
+                                <div class="input-group">
+                                    <InputNumber @bind-Value="Cita.CitaId" class="form-control col-4" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Observacion*@
+                    <div class="form-group">
+                        <label>Observaciones</label>
+                        <InputTextArea @bind-Value="Cita.Observacion" class="form-control" />
+                        <ValidationMessage For="@(()=>Cita.Observacion)" />
+                    </div>
+
+                    @*Fecha*@
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <InputDate @bind-Value="Cita.Fecha" class="form-control" />
+                        <ValidationMessage For="@(()=>Cita.Fecha)" />
+                    </div>
+
+                    @*Estado*@
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <InputCheckbox @bind-Value="Cita.Estado" class="form-control" />
+                        <ValidationMessage For="@(()=>Cita.Estado)" />
+                    </div>
+
+                    @*PacienteId*@
+                    <div class="form-group">
+                        <label>Paciente</label>
+                        <InputSelect @bind-Value="Cita.PacienteId"class="form-control"  />
+                        <ValidationMessage For="@(()=>Cita.PacienteId)" />
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-footer">
+                <div class="form-group text-center" display: in line-block>
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int CitaId { get; set; }
+
+    private Citas Cita = new Citas();
+    public bool EsAutorizado = false;
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+
+        Buscar();
+
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
+            AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
+        {
+            EsAutorizado = true;
+        }
+    }
+
+    public void Nuevo()
+    {
+        Cita = new Citas();
+    }
+
+    private void Buscar()
+    {
+        if (Cita.CitaId > 0)
+        {
+            var encontrado = CitasBLL.Buscar(Cita.CitaId);
+
+            if (encontrado != null)
+            {
+                this.Cita = encontrado;
+            }
+            else
+            {
+                toast.ShowWarning("No encontrado");
+            }
+        }
+    }
+
+    public void Guardar()
+    {
+        bool guardo;
+        guardo = CitasBLL.Guardar(Cita);
+
+        if (guardo)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado Correctamente");
+        }
+        else
+        {
+            toast.ShowError("No fue Posible Guardar");
+        }
+    }
+
+    public void Eliminar()
+    {
+        bool elimino;
+        elimino = CitasBLL.Eliminar(Cita.CitaId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado Correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+}

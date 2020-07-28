@@ -3,27 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CVDentalSteticSystem.Migrations
 {
-    public partial class Migracion_Incial : Migration
+    public partial class Primera : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Citas",
-                columns: table => new
-                {
-                    CitaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Fecha = table.Column<DateTime>(nullable: false),
-                    Hora = table.Column<string>(nullable: true),
-                    PacienteId = table.Column<int>(nullable: false),
-                    Estado = table.Column<string>(nullable: true),
-                    Observacion = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Citas", x => x.CitaId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Pacientes",
                 columns: table => new
@@ -97,6 +80,28 @@ namespace CVDentalSteticSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Citas",
+                columns: table => new
+                {
+                    CitaId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Fecha = table.Column<DateTime>(nullable: false),
+                    Estado = table.Column<bool>(nullable: false),
+                    Observacion = table.Column<string>(nullable: true),
+                    PacienteId1 = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Citas", x => x.CitaId);
+                    table.ForeignKey(
+                        name: "FK_Citas_Pacientes_PacienteId1",
+                        column: x => x.PacienteId1,
+                        principalTable: "Pacientes",
+                        principalColumn: "PacienteId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProcedimientosDetalles",
                 columns: table => new
                 {
@@ -121,7 +126,12 @@ namespace CVDentalSteticSystem.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Fecha", "NivelAcceso", "Nombres", "Usuario" },
-                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 25, 0, 21, 27, 82, DateTimeKind.Local).AddTicks(2193), "Administrador", "admin", "admin" });
+                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 28, 11, 58, 10, 452, DateTimeKind.Local).AddTicks(492), "Administrador", "admin", "admin" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Citas_PacienteId1",
+                table: "Citas",
+                column: "PacienteId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcedimientosDetalles_ProcedimeintoDetalleId",
@@ -135,9 +145,6 @@ namespace CVDentalSteticSystem.Migrations
                 name: "Citas");
 
             migrationBuilder.DropTable(
-                name: "Pacientes");
-
-            migrationBuilder.DropTable(
                 name: "ProcedimientosDetalles");
 
             migrationBuilder.DropTable(
@@ -145,6 +152,9 @@ namespace CVDentalSteticSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Pacientes");
 
             migrationBuilder.DropTable(
                 name: "Procedimientos");

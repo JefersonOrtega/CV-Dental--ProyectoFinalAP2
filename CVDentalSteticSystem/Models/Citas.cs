@@ -10,10 +10,11 @@ namespace CVDentalSteticSystem.Models
     {
         [Key]
         public int CitaId { get; set; }
+        [DataType(DataType.DateTime), DisplayFormat(DataFormatString = "0:dd/MM/yyyy hh:mm tt")]
+        [Required(ErrorMessage = "Debe seleccionar una fecha para la cita")]
         public DateTime Fecha { get; set; }
-        public string Hora { get; set; }
-        public int PacienteId { get; set; }
-        public string Estado { get; set; }
+        public bool Estado { get; set; }
         public string Observacion { get; set; }
+        public Pacientes PacienteId { get; set; }
     }
 }

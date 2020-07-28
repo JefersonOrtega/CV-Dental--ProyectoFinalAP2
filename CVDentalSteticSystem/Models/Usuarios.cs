@@ -19,8 +19,7 @@ namespace CVDentalSteticSystem.Models
         public string Nombres { get; set; }
         [Required(ErrorMessage = "Es necesario introducir el nombre de usuario")]
         [StringLength(maximumLength: 30, ErrorMessage = "El nombre de usuario es muy largo")]
-        public string Usuario { get; set; }
-        
+        public string Usuario { get; set; }        
         [Required(ErrorMessage = "Es necesario introducir una Contraseña")]
         public string Contrasena { get; set; }
         [Required(ErrorMessage = "Es necesario introducir un nivel de acceso")]

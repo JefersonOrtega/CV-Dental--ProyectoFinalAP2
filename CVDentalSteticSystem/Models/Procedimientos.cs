@@ -18,8 +18,7 @@ namespace CVDentalSteticSystem.Models
         [Range(1, int.MaxValue, ErrorMessage = "Seleccione un Tipo de Procedimiento")]
         public int TipoProcedimientoId { get; set; }
         [Required(ErrorMessage ="Es necesario seleccionar un estado")]
-        public string Estado { get; set; }
-        
+        public string Estado { get; set; }  
         public decimal Monto { get; set; }
         public bool EsCobrado { get; set; } //Si esta cobrado o no
         //public int UsuarioId { get; set; }

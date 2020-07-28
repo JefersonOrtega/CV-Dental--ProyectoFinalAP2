@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVDentalSteticSystem.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200725042127_Migracion_Incial")]
-    partial class Migracion_Incial
+    [Migration("20200728155812_Primera")]
+    partial class Primera
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,22 +24,21 @@ namespace CVDentalSteticSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Estado")
-                        .HasColumnType("TEXT");
+                    b.Property<bool>("Estado")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Hora")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Observacion")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PacienteId")
+                    b.Property<int?>("PacienteId1")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CitaId");
+
+                    b.HasIndex("PacienteId1");
 
                     b.ToTable("Citas");
                 });
@@ -204,11 +203,18 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 25, 0, 21, 27, 82, DateTimeKind.Local).AddTicks(2193),
+                            Fecha = new DateTime(2020, 7, 28, 11, 58, 10, 452, DateTimeKind.Local).AddTicks(492),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"
                         });
+                });
+
+            modelBuilder.Entity("CVDentalSteticSystem.Models.Citas", b =>
+                {
+                    b.HasOne("CVDentalSteticSystem.Models.Pacientes", "PacienteId")
+                        .WithMany()
+                        .HasForeignKey("PacienteId1");
                 });
 
             modelBuilder.Entity("CVDentalSteticSystem.Models.ProcedimientosDetalles", b =>
