@@ -47,7 +47,7 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
-                TiposProcedimientos tipoProcedimiento = TipoProcedimientoBLL.Buscar(procedimiento.TipoProcedimientoId);
+                TiposProcedimientos tipoProcedimiento = TiposProcedimientosBLL.Buscar(procedimiento.TipoProcedimientoId);
                 procedimiento.Monto = tipoProcedimiento.Precio;
 
                 Pacientes paciente = PacientesBLL.Buscar(procedimiento.PacienteId);
@@ -79,7 +79,7 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
-                TiposProcedimientos tipoProcedimiento = TipoProcedimientoBLL.Buscar(procedimiento.TipoProcedimientoId);
+                TiposProcedimientos tipoProcedimiento = TiposProcedimientosBLL.Buscar(procedimiento.TipoProcedimientoId);
                 procedimiento.Monto = tipoProcedimiento.Precio;
 
                 Pacientes paciente = PacientesBLL.Buscar(procedimiento.PacienteId);

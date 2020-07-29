@@ -16,5 +16,6 @@ namespace CVDentalSteticSystem.Models
         public string Descripcion { get; set; }
         [Required(ErrorMessage ="Es necesario digitar el precio ")]
         public decimal Precio { get; set; }
+
     }
 }
