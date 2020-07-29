@@ -14,7 +14,7 @@ using Blazored.Toast;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
-
+using Syncfusion.Blazor;
 
 namespace CVDentalSteticSystem
 {
@@ -42,7 +42,7 @@ namespace CVDentalSteticSystem
                 .AddCookie();
             // BLAZOR COOKIE Auth Code (end)
 
-
+            services.AddSyncfusionBlazor();
             services.AddBlazoredToast();
             services.AddRazorPages();
             services.AddServerSideBlazor();

@@ -41,7 +41,7 @@
                                 <label>Cita Id</label>
                                 <div class="input-group">
                                     <InputNumber @bind-Value="Cita.CitaId" class="form-control col-4" />
-                                    <div class="input-group-append">
+                                    <div class="input-group-  append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                     @*Fecha*@
                     <div class="form-group">
                         <label>Fecha</label>
-                        <InputDate @bind-Value="Cita.Fecha" class="form-control" />
+                        <SfDateTimePicker TValue="DateTime" @bind-Value="Cita.Fecha" Placeholder='Select a date and time'></SfDateTimePicker>
                         <ValidationMessage For="@(()=>Cita.Fecha)" />
                     </div>
 
@@ -71,11 +71,17 @@
                     </div>
 
                     @*PacienteId*@
-                    <div class="form-group">
-                        <label>Paciente</label>
-                        <InputSelect @bind-Value="Cita.PacienteId"class="form-control"  />
-                        <ValidationMessage For="@(()=>Cita.PacienteId)" />
-                    </div>
+                <div class="form-group">
+                    <label>Paciente</label>
+                    @*<InputSelect @bind-Value="@Cita.PacienteId" class="form-control">
+                        <option value="0">Elige el usuario</option>
+                        @foreach (var item in lista)
+                            {
+                            <option value="@item.PacienteId">@item.Nombres</option>
+                            }
+                    </InputSelect>*@
+                    <ValidationMessage For="@(()=>Cita.PacienteId)" />
+                </div>
                 </form>
             </div>
 
@@ -94,11 +100,16 @@
     [Parameter]
     public int CitaId { get; set; }
 
+    List<Pacientes> lista = new List<Pacientes>();
+
+    private Pacientes Pacientes;
+    private string citaPacienteId;
     private Citas Cita = new Citas();
     public bool EsAutorizado = false;
 
     protected override void OnInitialized()
     {
+        lista = PacientesBLL.GetList(x => true);
         Nuevo();
 
         Buscar();
@@ -134,8 +145,9 @@
 
     public void Guardar()
     {
-        bool guardo;
+        bool guardo = false;
         guardo = CitasBLL.Guardar(Cita);
+        
 
         if (guardo)
         {
