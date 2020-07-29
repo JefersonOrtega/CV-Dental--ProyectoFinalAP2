@@ -73,13 +73,13 @@
                     @*PacienteId*@
                 <div class="form-group">
                     <label>Paciente</label>
-                    @*<InputSelect @bind-Value="@Cita.PacienteId" class="form-control">
-                        <option value="0">Elige el usuario</option>
-                        @foreach (var item in lista)
+                    <InputSelectNumber @bind-Value="Cita.PacienteId" class="form-control">
+                        <option value="" disabled selected>Seleccione una tipo de procedimiento</option>
+                        @foreach (var paciente in CargarPacientes())
                             {
-                            <option value="@item.PacienteId">@item.Nombres</option>
+                            <option value="@paciente.PacienteId">@paciente.Nombres</option>
                             }
-                    </InputSelect>*@
+                    </InputSelectNumber>
                     <ValidationMessage For="@(()=>Cita.PacienteId)" />
                 </div>
                 </form>
@@ -100,16 +100,13 @@
     [Parameter]
     public int CitaId { get; set; }
 
-    List<Pacientes> lista = new List<Pacientes>();
-
-    private Pacientes Pacientes;
+    private Pacientes Pacientes = new Pacientes();
     private string citaPacienteId;
     private Citas Cita = new Citas();
     public bool EsAutorizado = false;
 
     protected override void OnInitialized()
     {
-        lista = PacientesBLL.GetList(x => true);
         Nuevo();
 
         Buscar();
@@ -147,7 +144,7 @@
     {
         bool guardo = false;
         guardo = CitasBLL.Guardar(Cita);
-        
+
 
         if (guardo)
         {
@@ -172,6 +169,22 @@
         }
         else
             toast.ShowError("No fue posible eliminar");
+    }
+
+    public List<Pacientes> CargarPacientes()
+    {
+        List<Pacientes> lista = new List<Pacientes>();
+
+        try
+        {
+            lista = PacientesBLL.GetPacientes();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+        return lista;
     }
 
 }
