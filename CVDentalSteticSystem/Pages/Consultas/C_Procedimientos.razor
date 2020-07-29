@@ -48,7 +48,30 @@
                 <div class="form-group   col-6">
                     <label>Criterio</label>
                     <div class="input-group">
-                        <input type="text" @bind=" criterio" class="form-control" />
+
+
+
+                       @* @if (eleccion == "2")
+                        {
+                            <InputSelectNumber @bind-Value="PacienteSelecionado.PacienteId" class="form-control">
+                                <option value="" disabled selected>Seleccione un Paciente</option>
+                                @foreach (var auxiliar in CargarPacientes())
+                                {
+                                    <option value="@auxiliar.PacienteId">@auxiliar.Nombres @auxiliar.Apellidos</option>
+                                }
+                            </InputSelectNumber>
+                            
+                        }
+                        else
+                        {
+                            
+                        }*@
+                    <input type="text" @bind="criterio" class="form-control" />
+
+
+
+
+
                         <div class="input-group-append">
                             <button class="btn btn-primary" @onclick="Consultar">Consultar</button>
                         </div>
@@ -99,6 +122,7 @@
     private string criterio;
     public bool EsAutorizado = false;
     public decimal TotalSinCobrar = 0;
+   // private Pacientes PacienteSelecionado = new Pacientes();
 
 
 
@@ -115,11 +139,32 @@
         {
             EsAutorizado = true;
         }
+
     }
+
+
+    public List<Pacientes> CargarPacientes()
+    {
+        List<Pacientes> lista = new List<Pacientes>();
+
+        try
+        {
+            lista = PacientesBLL.GetPacientes();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+        return lista;
+    }
+
 
     private void Consultar()
     {
         int seleccion = Convert.ToInt32(eleccion);
+        if (eleccion == "2")
+            criterio = Convert.ToString(PacienteSelecionado.PacienteId);
 
         if (criterio.Trim().Length > 0)
         {
