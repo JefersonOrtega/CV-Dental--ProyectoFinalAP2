@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CVDentalSteticSystem.BLL
 {
-    public class TipoProcedimientoBLL
+    public class TiposProcedimientosBLL
     {
         public static bool Guardar(TiposProcedimientos tipoProcedimiento)
         {

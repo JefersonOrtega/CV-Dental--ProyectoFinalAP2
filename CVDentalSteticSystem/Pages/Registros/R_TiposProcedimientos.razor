@@ -3,6 +3,7 @@
 @using Models;
 @using CVDentalSteticSystem.BLL
 
+
 @inject IToastService toast
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
@@ -115,7 +116,7 @@
     {
         if (tipoProcedimiento.TipoProcedimientoId > 0)
         {
-            var encontrado = CVDentalSteticSystem.BLL.TipoProcedimientoBLL.Buscar(tipoProcedimiento.TipoProcedimientoId);
+            var encontrado = TiposProcedimientosBLL.Buscar(tipoProcedimiento.TipoProcedimientoId);
             if (encontrado != null)
                 this.tipoProcedimiento = encontrado;
             else
@@ -126,7 +127,7 @@
     public void Guardar()
     {
         bool guardo;
-        guardo = TipoProcedimientoBLL.Guardar(tipoProcedimiento);
+        guardo = TiposProcedimientosBLL.Guardar(tipoProcedimiento);
 
         if (guardo)
         {
@@ -142,7 +143,7 @@
     public void Eliminar()
     {
         bool elimino;
-        elimino = TipoProcedimientoBLL.Eliminar(tipoProcedimiento.TipoProcedimientoId);
+        elimino = TiposProcedimientosBLL.Eliminar(tipoProcedimiento.TipoProcedimientoId);
 
         if (elimino)
         {
