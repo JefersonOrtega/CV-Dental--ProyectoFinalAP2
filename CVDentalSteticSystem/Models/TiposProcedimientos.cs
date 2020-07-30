@@ -14,7 +14,7 @@ namespace CVDentalSteticSystem.Models
         public string NombreProcedimiento { get; set; }
         [Required(ErrorMessage ="Es necesario digitar una breve descripcion del procedimiento")]
         public string Descripcion { get; set; }
-        [Required(ErrorMessage ="Es necesario digitar el precio ")]
+        [Range(1,int.MaxValue, ErrorMessage ="Es necesario digitar el precio ")]
         public decimal Precio { get; set; }
 
     }

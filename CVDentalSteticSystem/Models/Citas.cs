@@ -15,6 +15,6 @@ namespace CVDentalSteticSystem.Models
         public DateTime Fecha { get; set; }
         public bool Estado { get; set; }
         public string Observacion { get; set; }
-        public Pacientes PacienteId { get; set; }
+        public int PacienteId { get; set; }
     }
 }

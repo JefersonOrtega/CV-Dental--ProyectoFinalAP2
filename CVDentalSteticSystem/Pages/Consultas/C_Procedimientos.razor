@@ -33,7 +33,6 @@
                 <div class="form-group col-4">
                     <label>Filtro: </label>
                     <select @bind="eleccion" class="form-control  col-4" placeholder="Seleccione un Filtro">
-                        <option value="0">Todo</option>
                         <option value="1">Id</option>
                         <option value="2">Paciente</option>
                         <option value="3">Tipo de Procedimiento</option>
@@ -51,22 +50,35 @@
 
 
 
-                       @* @if (eleccion == "2")
+                        @if (eleccion == "2")
                         {
-                            <InputSelectNumber @bind-Value="PacienteSelecionado.PacienteId" class="form-control">
+                            <select @bind="PacienteSelecionado.PacienteId" class="form-control">
                                 <option value="" disabled selected>Seleccione un Paciente</option>
                                 @foreach (var auxiliar in CargarPacientes())
                                 {
                                     <option value="@auxiliar.PacienteId">@auxiliar.Nombres @auxiliar.Apellidos</option>
                                 }
-                            </InputSelectNumber>
-                            
+                            </select>
                         }
                         else
                         {
-                            
-                        }*@
-                    <input type="text" @bind="criterio" class="form-control" />
+                            @if (eleccion == "3")
+                            {
+                                <select @bind="TipoProcedimientoSeleccionado" class="form-control">
+                                    <option value="" disabled selected>Seleccione una tipo de procedimiento</option>
+                                    @foreach (var auxiliar in CargarTiposProcedimientos())
+                                    {
+                                        <option value="@auxiliar.TipoProcedimientoId">@auxiliar.NombreProcedimiento</option>
+                                    }
+                                </select>
+                            }
+                            else
+                            {
+                                <input type="text" @bind="criterio" class="form-control" />
+                            }
+
+                        }
+
 
 
 
@@ -119,10 +131,11 @@
 
     List<Procedimientos> listaProcedimientos = new List<Procedimientos>();
     private string eleccion;
-    private string criterio;
+    private string criterio="";
     public bool EsAutorizado = false;
     public decimal TotalSinCobrar = 0;
-    private Pacientes PacienteSelecionado = new Pacientes();
+    public Pacientes PacienteSelecionado = new Pacientes();
+    public int TipoProcedimientoSeleccionado;
 
 
 
@@ -159,6 +172,21 @@
         return lista;
     }
 
+    public List<TiposProcedimientos> CargarTiposProcedimientos()
+    {
+        List<TiposProcedimientos> lista = new List<TiposProcedimientos>();
+
+        try
+        {
+            lista = TiposProcedimientosBLL.GetTiposProcedimientos();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+        return lista;
+    }
 
     private void Consultar()
     {
@@ -166,47 +194,47 @@
         if (eleccion == "2")
             criterio = Convert.ToString(PacienteSelecionado.PacienteId);
 
-        if (criterio.Trim().Length > 0)
+        if (criterio.Trim().Length > 0 && Convert.ToInt32(seleccion)<3)
         {
             switch (seleccion)
             {
-                case 0:
-                    {
-                        listaProcedimientos = ProcedimientosBLL.GetList(x => true);
-                        ObtenerTotalSinCobrar(listaProcedimientos);
-                        break;
-                    }
-                case 1: //id
+                case 0: //id
                     {
                         int id = int.Parse(criterio);
-                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.PacienteId == id);
+                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.ProcedimientoId == id);
                         ObtenerTotalSinCobrar(listaProcedimientos);
                         break;
 
                     }
-                case 2: //Paciente
+                case 1: //Paciente
                     {
                         int id = int.Parse(criterio);
                         listaProcedimientos = ProcedimientosBLL.GetList(p => p.PacienteId == id);
                         ObtenerTotalSinCobrar(listaProcedimientos);
                         break;
                     }
-                case 3: //Tipo de Procedimiento
+                case 2: //Tipo de Procedimiento
                     {
                         int id = int.Parse(criterio);
                         listaProcedimientos = ProcedimientosBLL.GetList(p => p.TipoProcedimientoId == id);
                         ObtenerTotalSinCobrar(listaProcedimientos);
                         break;
                     }
-                case 4: //En Proceso
+                case 3: //En Proceso
                     {
                         listaProcedimientos = ProcedimientosBLL.GetList(p => p.Estado.ToLower() == "en proceso");
                         ObtenerTotalSinCobrar(listaProcedimientos);
                         break;
                     }
-                case 5: //Concluidos
+                case 4: //Concluidos
                     {
                         listaProcedimientos = ProcedimientosBLL.GetList(p => p.Estado.ToLower() == "concluido");
+                        ObtenerTotalSinCobrar(listaProcedimientos);
+                        break;
+                    }
+                case 5: //Cobrados
+                    {
+                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.EsCobrado == true);
                         ObtenerTotalSinCobrar(listaProcedimientos);
                         break;
                     }

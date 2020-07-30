@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVDentalSteticSystem.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200728155812_Primera")]
-    partial class Primera
+    [Migration("20200730035048_Migracion_Inicial")]
+    partial class Migracion_Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,14 +33,39 @@ namespace CVDentalSteticSystem.Migrations
                     b.Property<string>("Observacion")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PacienteId1")
+                    b.Property<int>("PacienteId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CitaId");
 
-                    b.HasIndex("PacienteId1");
-
                     b.ToTable("Citas");
+                });
+
+            modelBuilder.Entity("CVDentalSteticSystem.Models.Cobros", b =>
+                {
+                    b.Property<int>("CobroId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Abono")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProcedimientoId1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("UsuarioId1")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CobroId");
+
+                    b.HasIndex("ProcedimientoId1");
+
+                    b.HasIndex("UsuarioId1");
+
+                    b.ToTable("Cobros");
                 });
 
             modelBuilder.Entity("CVDentalSteticSystem.Models.Pacientes", b =>
@@ -203,18 +228,22 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 28, 11, 58, 10, 452, DateTimeKind.Local).AddTicks(492),
+                            Fecha = new DateTime(2020, 7, 29, 23, 50, 48, 566, DateTimeKind.Local).AddTicks(9966),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"
                         });
                 });
 
-            modelBuilder.Entity("CVDentalSteticSystem.Models.Citas", b =>
+            modelBuilder.Entity("CVDentalSteticSystem.Models.Cobros", b =>
                 {
-                    b.HasOne("CVDentalSteticSystem.Models.Pacientes", "PacienteId")
+                    b.HasOne("CVDentalSteticSystem.Models.Procedimientos", "ProcedimientoId")
                         .WithMany()
-                        .HasForeignKey("PacienteId1");
+                        .HasForeignKey("ProcedimientoId1");
+
+                    b.HasOne("CVDentalSteticSystem.Models.Usuarios", "UsuarioId")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId1");
                 });
 
             modelBuilder.Entity("CVDentalSteticSystem.Models.ProcedimientosDetalles", b =>
