@@ -14,7 +14,8 @@ namespace CVDentalSteticSystem.DAL
         public DbSet<TiposProcedimientos> TiposProcedimientos { get; set; }
         public DbSet<Procedimientos> Procedimientos { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
-        
+        public DbSet<Cobros> Cobros { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data Source= DATA\CVDentalSteticSystem.db");

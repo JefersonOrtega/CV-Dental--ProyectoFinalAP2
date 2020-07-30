@@ -74,7 +74,7 @@
                 <div class="form-group">
                     <label>Paciente</label>
                     <InputSelectNumber @bind-Value="Cita.PacienteId" class="form-control">
-                        <option value="" disabled selected>Seleccione una tipo de procedimiento</option>
+                        <option value="" disabled selected>Seleccione un paciente</option>
                         @foreach (var paciente in CargarPacientes())
                             {
                             <option value="@paciente.PacienteId">@paciente.Nombres</option>
@@ -100,9 +100,8 @@
     [Parameter]
     public int CitaId { get; set; }
 
-    private Pacientes Pacientes = new Pacientes();
-    private string citaPacienteId;
     private Citas Cita = new Citas();
+
     public bool EsAutorizado = false;
 
     protected override void OnInitialized()
