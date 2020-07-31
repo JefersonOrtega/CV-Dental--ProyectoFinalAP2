@@ -3,14 +3,16 @@ using System;
 using CVDentalSteticSystem.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CVDentalSteticSystem.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20200730221749_Se_agrego_TipoCitas")]
+    partial class Se_agrego_TipoCitas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace CVDentalSteticSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PacienteId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TipoCitaId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CitaId");
@@ -182,11 +181,6 @@ namespace CVDentalSteticSystem.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(256);
-
                     b.HasKey("TipoCitaId");
 
                     b.ToTable("TipoCitas");
@@ -250,7 +244,7 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 30, 20, 5, 50, 91, DateTimeKind.Local).AddTicks(5163),
+                            Fecha = new DateTime(2020, 7, 30, 18, 17, 48, 922, DateTimeKind.Local).AddTicks(5185),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"

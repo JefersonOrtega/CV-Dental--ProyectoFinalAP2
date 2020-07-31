@@ -15,6 +15,7 @@ namespace CVDentalSteticSystem.DAL
         public DbSet<Procedimientos> Procedimientos { get; set; }
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Cobros> Cobros { get; set; }
+        public DbSet<TipoCitas> TipoCitas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,8 +40,6 @@ namespace CVDentalSteticSystem.DAL
                 .HasMany(p => p.ProcedimientoDetalle)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
-            
-
         }
     }
 }

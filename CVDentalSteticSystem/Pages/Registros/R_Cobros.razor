@@ -1,5 +1,5 @@
-﻿@page "/Procedimientos"
-@page "/Procedimientos/{ProcedimientoId:int}"
+﻿@page "/Cobros"
+@page "/Cobros/{CobroId:int}"
 
 
 @using CVDentalSteticSystem.BLL
@@ -8,7 +8,6 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <AuthorizeView>
-
 
     <NotAuthorized>
         <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
@@ -25,13 +24,13 @@
 </AuthorizeView>
 
 @if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
- && EsAutorizado)
+&& EsAutorizado)
 {
     <EditForm Model="Procedimiento" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <div class="card">
             <div class="card-header">
-                <h3>Registro de Procedimientos</h3>
+                <h3>Registro de Cobros</h3>
             </div>
 
             <div class="card-body">
@@ -40,7 +39,7 @@
                     <div class="form-row align-items-center">
                         <div class="col">
                             <div class="form-group">
-                                <label>Procedimiento Id</label>
+                                <label>Cobro Id</label>
                                 <div class="input-group">
                                     <InputNumber @bind-Value="Procedimiento.ProcedimientoId" class="form-control col-4" />
                                     <div class="input-group-append">
@@ -95,16 +94,16 @@
                         <div class="card-body">
                             <div class="form-row">
                                 @*CitaId
-                    <div class="form-group" col-4>
-                        <label>CitaId</label>
-                        <InputSelectNumber @bind-Value="" class="form-control" ">
-                            @foreach (var item in )
-                                {
-                                <option value="@item.Id">@item.Descripcion</option>
-                                }
-                        </InputSelectNumber>
-                        <ValidationMessage For="@(()=>)" />
-                    </div>*@
+                                    <div class="form-group" col-4>
+                                        <label>CitaId</label>
+                                        <InputSelectNumber @bind-Value="" class="form-control" ">
+                                            @foreach (var item in )
+                                                {
+                                                <option value="@item.Id">@item.Descripcion</option>
+                                                }
+                                        </InputSelectNumber>
+                                        <ValidationMessage For="@(()=>)" />
+                                    </div>*@
 
                                 @*Descripción*@
                                 <div class="form-group ">
@@ -154,7 +153,7 @@
                     @*Monto*@
                     <div class="form-group">
                         <label>Monto</label>
-                        <InputNumber readOnly @bind-Value="Procedimiento.Monto" class="form-control"/>
+                        <InputNumber readOnly @bind-Value="Procedimiento.Monto" class="form-control" />
                     </div>
 
 
@@ -176,6 +175,8 @@
 @code {
     [Parameter]
     public int ProcedimientoId { get; set; }
+    [Parameter]
+    public int CobroId { get; set; }
 
     private Procedimientos Procedimiento = new Procedimientos();
     public bool EsAutorizado = false;
