@@ -26,7 +26,7 @@
 @if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
 && EsAutorizado)
 {
-    <EditForm Model="Procedimiento" OnValidSubmit="Guardar">
+    <EditForm Model="Cobro" OnValidSubmit="Guardar">
         <DataAnnotationsValidator />
         <div class="card">
             <div class="card-header">
@@ -35,13 +35,13 @@
 
             <div class="card-body">
                 <form>
-                    @*ProcedimientoId*@
+                    @*CobroId*@
                     <div class="form-row align-items-center">
                         <div class="col">
                             <div class="form-group">
                                 <label>Cobro Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Procedimiento.ProcedimientoId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Cobro.CobroId" class="form-control col-4" />
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -52,59 +52,49 @@
 
                     @*PacienteId*@
                     <div class="form-group">
-                        <label>Paciente Id</label>
-                        <InputSelectNumber @bind-Value="Procedimiento.PacienteId" class="form-control">
+                        <label>Paciente</label>
+                        <InputSelectNumber @bind-Value="Cobro.PacienteId" class="form-control">
                             <option value="" disabled selected>Seleccione un Paciente</option>
                             @foreach (var auxiliar in CargarPacientes())
                                 {
                                 <option value="@auxiliar.PacienteId">@auxiliar.Nombres @auxiliar.Apellidos</option>
                                 }
                         </InputSelectNumber>
-                        <ValidationMessage For="@(()=>Procedimiento.PacienteId)" />
-
+                        <ValidationMessage For="@(() => Cobro.PacienteId)" />
                     </div>
 
                     @*TipoProcedimientoId*@
                     <div class="form-group">
                         <label>Tipo de Procedimiento Id</label>
-                        <InputSelectNumber @bind-Value="Procedimiento.TipoProcedimientoId" class="form-control">
+                        <InputSelectNumber @bind-Value="Cobro.ProcedimientoId" class="form-control">
                             <option value="" disabled selected>Seleccione una tipo de procedimiento</option>
                             @foreach (var auxiliar in CargarTiposProcedimientos())
                                 {
                                 <option value="@auxiliar.TipoProcedimientoId">@auxiliar.NombreProcedimiento</option>
                                 }
                         </InputSelectNumber>
-                        <ValidationMessage For="@(()=>Procedimiento.TipoProcedimientoId)" />
+                        <ValidationMessage For="@(()=>Cobro.ProcedimientoId)" />
                     </div>
 
-
-                    @*Estado*@
+                    @*Fecha*@
                     <div class="form-group">
-                        <label>Estado</label>
-                        <InputSelect @bind-Value="Procedimiento.Estado" class="form-control">
-                            <option value="" disabled selected>Seleccione un Estado</option>
-                            <option value="En proceso">En Proceso</option>
-                            <option value="Concluido">Concluido</option>
-                        </InputSelect>
-                        <ValidationMessage For="@(() => Procedimiento.Estado)" />
+                        <label>Fecha</label>
+                        <SfDateTimePicker TValue="DateTime" @bind-Value="Cobro.Fecha" Placeholder='Select a date and time' />
+                        <ValidationMessage For="@(() => Cobro.Fecha)" />
+                    </div>
+
+                    @*Monto*@
+                    <div class="form-group">
+                        <label>Monto</label>
+                        <InputNumber @bind-Value="Cobro.Monto" class="form-control" />
+                        <ValidationMessage For="@(() => Cobro.Monto)"/>
                     </div>
 
                     @*ProcedimientosDetalle*@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-row">
-                                @*CitaId
-                                    <div class="form-group" col-4>
-                                        <label>CitaId</label>
-                                        <InputSelectNumber @bind-Value="" class="form-control" ">
-                                            @foreach (var item in )
-                                                {
-                                                <option value="@item.Id">@item.Descripcion</option>
-                                                }
-                                        </InputSelectNumber>
-                                        <ValidationMessage For="@(()=>)" />
-                                    </div>*@
-
+                
                                 @*Descripción*@
                                 <div class="form-group ">
                                     <label>Descripción</label>
@@ -122,41 +112,39 @@
                             <table class="table">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">CitaId</th>
+                                        <th scope="col">CobroId</th>
                                         <th scope="col">Paciente</th>
                                         <th scope="col">Descripción</th>
-
+                                        <th scope="col">Monto</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Procedimiento.ProcedimientoDetalle)
+                                    @foreach (var item in Cobro.CobroDetalles)
                                     {
                                         <tr>
 
                                             <td>1</td>
                                             <td>@paciente.Nombres  @paciente.Apellidos</td>
                                             <td>@item.Descripcion</td>
+                                            <td>@Cobro.Monto</td>
                                             <td>
                                                 <button type="button" class="btn btn-danger" @onclick="@(() => EliminarDetalle(item))">
                                                     <span class="oi oi-x col"></span>
                                                 </button>
                                             </td>
-
                                         </tr>
                                     }
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    @*Monto*@
+                    @*Monto
                     <div class="form-group">
                         <label>Monto</label>
-                        <InputNumber readOnly @bind-Value="Procedimiento.Monto" class="form-control" />
-                    </div>
-
-
+                        <InputNumber readOnly @bind-Value="(() => CargarPacientes().Where(p => p.PacienteId == Cobro.PacienteId).Select(p => p.Balance)
+                                                           .FirstOrDefault())" class="form-control" />
+                    </div>*@
                 </form>
 
             </div>
@@ -174,19 +162,17 @@
 
 @code {
     [Parameter]
-    public int ProcedimientoId { get; set; }
-    [Parameter]
     public int CobroId { get; set; }
+    private Cobros Cobro = new Cobros();
 
-    private Procedimientos Procedimiento = new Procedimientos();
     public bool EsAutorizado = false;
     private string Descripcion = "";
 
-    Pacientes paciente;
+    Pacientes paciente = new Pacientes();
 
     public void BuscarPaciente()
     {
-        paciente = PacientesBLL.Buscar(Procedimiento.PacienteId);
+        paciente = PacientesBLL.Buscar(Cobro.PacienteId);
     }
 
     protected override void OnInitialized()
@@ -200,28 +186,29 @@
         {
             EsAutorizado = true;
         }
-
-
     }
 
     public void Nuevo()
     {
-        Procedimiento = new Procedimientos();
+        Cobro = new Cobros();
     }
 
     private void Buscar()
     {
-        if (Procedimiento.ProcedimientoId > 0)
+        if (Cobro.CobroId > 0)
         {
-            var encontrado = ProcedimientosBLL.Buscar(Procedimiento.ProcedimientoId);
+            var encontrado = CobrosBLL.Buscar(Cobro.CobroId);
 
             if (encontrado != null)
             {
-                this.Procedimiento = encontrado;
-                BuscarPaciente();
+                this.Cobro = encontrado;
+                //BuscarPaciente();
             }
             else
+            {
                 toast.ShowWarning("No encontrado");
+            }
+
         }
     }
 
@@ -262,10 +249,8 @@
 
         if (Descripcion != "")
         {
-            Procedimiento.ProcedimientoDetalle.Add(new ProcedimientosDetalles
+            Cobro.CobroDetalles.Add(new CobroDetalles
             {
-                //ProcedimientoId = Procedimiento.ProcedimientoId,
-                //CitaId = citaId,
                 Descripcion = this.Descripcion
             });
         }
@@ -278,16 +263,16 @@
 
     }
 
-    public void EliminarDetalle(ProcedimientosDetalles detalle)
+    public void EliminarDetalle(CobroDetalles detalle)
     {
-        Procedimiento.ProcedimientoDetalle.Remove(detalle);
+        Cobro.CobroDetalles.Remove(detalle);
     }
-
 
     public void Guardar()
     {
         bool guardo;
-        guardo = ProcedimientosBLL.Guardar(Procedimiento);
+        CobrosBLL.PagarMonto(Cobro.PacienteId, Cobro.Monto);
+        guardo = CobrosBLL.Guardar(Cobro);
 
         if (guardo)
         {
@@ -303,7 +288,7 @@
     public void Eliminar()
     {
         bool elimino;
-        elimino = ProcedimientosBLL.Eliminar(Procedimiento.ProcedimientoId);
+        elimino = ProcedimientosBLL.Eliminar(Cobro.CobroId);
 
         if (elimino)
         {

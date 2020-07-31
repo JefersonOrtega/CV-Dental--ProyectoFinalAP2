@@ -3,21 +3,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CVDentalSteticSystem.Migrations
 {
-    public partial class Se_agrego_TipoCitas : Migration
+    public partial class ModificacionVariada : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TipoCitas",
+                name: "Seguros",
                 columns: table => new
                 {
-                    TipoCitaId = table.Column<int>(nullable: false)
+                    SeguroId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Descripcion = table.Column<string>(maxLength: 256, nullable: false)
+                    Nombre = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TipoCitas", x => x.TipoCitaId);
+                    table.PrimaryKey("PK_Seguros", x => x.SeguroId);
                 });
 
             migrationBuilder.UpdateData(
@@ -25,20 +25,20 @@ namespace CVDentalSteticSystem.Migrations
                 keyColumn: "UsuarioId",
                 keyValue: 1,
                 column: "Fecha",
-                value: new DateTime(2020, 7, 30, 18, 17, 48, 922, DateTimeKind.Local).AddTicks(5185));
+                value: new DateTime(2020, 7, 31, 1, 12, 32, 499, DateTimeKind.Local).AddTicks(572));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TipoCitas");
+                name: "Seguros");
 
             migrationBuilder.UpdateData(
                 table: "Usuarios",
                 keyColumn: "UsuarioId",
                 keyValue: 1,
                 column: "Fecha",
-                value: new DateTime(2020, 7, 29, 23, 50, 48, 566, DateTimeKind.Local).AddTicks(9966));
+                value: new DateTime(2020, 7, 30, 23, 44, 49, 669, DateTimeKind.Local).AddTicks(5400));
         }
     }
 }

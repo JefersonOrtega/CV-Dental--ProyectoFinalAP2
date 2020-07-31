@@ -16,6 +16,7 @@ namespace CVDentalSteticSystem.DAL
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Cobros> Cobros { get; set; }
         public DbSet<TipoCitas> TipoCitas { get; set; }
+        public DbSet<Seguros> Seguros { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

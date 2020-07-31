@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CVDentalSteticSystem.Migrations
 {
-    public partial class Migracion_Inicial : Migration
+    public partial class Primera : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,11 +16,28 @@ namespace CVDentalSteticSystem.Migrations
                     Fecha = table.Column<DateTime>(nullable: false),
                     Estado = table.Column<bool>(nullable: false),
                     Observacion = table.Column<string>(nullable: true),
-                    PacienteId = table.Column<int>(nullable: false)
+                    PacienteId = table.Column<int>(nullable: false),
+                    TipoCitaId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Citas", x => x.CitaId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cobros",
+                columns: table => new
+                {
+                    CobroId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PacienteId = table.Column<int>(nullable: false),
+                    ProcedimientoId = table.Column<int>(nullable: false),
+                    Fecha = table.Column<DateTime>(nullable: false),
+                    Monto = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cobros", x => x.CobroId);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,6 +81,20 @@ namespace CVDentalSteticSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TipoCitas",
+                columns: table => new
+                {
+                    TipoCitaId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(maxLength: 256, nullable: false),
+                    Descripcion = table.Column<string>(maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoCitas", x => x.TipoCitaId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TiposProcedimientos",
                 columns: table => new
                 {
@@ -96,6 +127,25 @@ namespace CVDentalSteticSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CobroDetalles",
+                columns: table => new
+                {
+                    CobroDetallesId = table.Column<int>(nullable: false),
+                    CobroId = table.Column<int>(nullable: false),
+                    Descripcion = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CobroDetalles", x => x.CobroDetallesId);
+                    table.ForeignKey(
+                        name: "FK_CobroDetalles_Cobros_CobroDetallesId",
+                        column: x => x.CobroDetallesId,
+                        principalTable: "Cobros",
+                        principalColumn: "CobroId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProcedimientosDetalles",
                 columns: table => new
                 {
@@ -117,48 +167,10 @@ namespace CVDentalSteticSystem.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Cobros",
-                columns: table => new
-                {
-                    CobroId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Fecha = table.Column<DateTime>(nullable: false),
-                    Abono = table.Column<decimal>(nullable: false),
-                    ProcedimientoId1 = table.Column<int>(nullable: true),
-                    UsuarioId1 = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cobros", x => x.CobroId);
-                    table.ForeignKey(
-                        name: "FK_Cobros_Procedimientos_ProcedimientoId1",
-                        column: x => x.ProcedimientoId1,
-                        principalTable: "Procedimientos",
-                        principalColumn: "ProcedimientoId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Cobros_Usuarios_UsuarioId1",
-                        column: x => x.UsuarioId1,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Fecha", "NivelAcceso", "Nombres", "Usuario" },
-                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 29, 23, 50, 48, 566, DateTimeKind.Local).AddTicks(9966), "Administrador", "admin", "admin" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cobros_ProcedimientoId1",
-                table: "Cobros",
-                column: "ProcedimientoId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cobros_UsuarioId1",
-                table: "Cobros",
-                column: "UsuarioId1");
+                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 30, 23, 44, 49, 669, DateTimeKind.Local).AddTicks(5400), "Administrador", "admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcedimientosDetalles_ProcedimeintoDetalleId",
@@ -172,7 +184,7 @@ namespace CVDentalSteticSystem.Migrations
                 name: "Citas");
 
             migrationBuilder.DropTable(
-                name: "Cobros");
+                name: "CobroDetalles");
 
             migrationBuilder.DropTable(
                 name: "Pacientes");
@@ -181,10 +193,16 @@ namespace CVDentalSteticSystem.Migrations
                 name: "ProcedimientosDetalles");
 
             migrationBuilder.DropTable(
+                name: "TipoCitas");
+
+            migrationBuilder.DropTable(
                 name: "TiposProcedimientos");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Cobros");
 
             migrationBuilder.DropTable(
                 name: "Procedimientos");

@@ -42,29 +42,41 @@ namespace CVDentalSteticSystem.Migrations
                     b.ToTable("Citas");
                 });
 
+            modelBuilder.Entity("CVDentalSteticSystem.Models.CobroDetalles", b =>
+                {
+                    b.Property<int>("CobroDetallesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CobroId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CobroDetallesId");
+
+                    b.ToTable("CobroDetalles");
+                });
+
             modelBuilder.Entity("CVDentalSteticSystem.Models.Cobros", b =>
                 {
                     b.Property<int>("CobroId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Abono")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("ProcedimientoId1")
+                    b.Property<decimal>("Monto")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PacienteId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UsuarioId1")
+                    b.Property<int>("ProcedimientoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("CobroId");
-
-                    b.HasIndex("ProcedimientoId1");
-
-                    b.HasIndex("UsuarioId1");
 
                     b.ToTable("Cobros");
                 });
@@ -171,6 +183,21 @@ namespace CVDentalSteticSystem.Migrations
                     b.ToTable("ProcedimientosDetalles");
                 });
 
+            modelBuilder.Entity("CVDentalSteticSystem.Models.Seguros", b =>
+                {
+                    b.Property<int>("SeguroId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SeguroId");
+
+                    b.ToTable("Seguros");
+                });
+
             modelBuilder.Entity("CVDentalSteticSystem.Models.TipoCitas", b =>
                 {
                     b.Property<int>("TipoCitaId")
@@ -250,22 +277,20 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 30, 20, 5, 50, 91, DateTimeKind.Local).AddTicks(5163),
+                            Fecha = new DateTime(2020, 7, 31, 1, 12, 32, 499, DateTimeKind.Local).AddTicks(572),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"
                         });
                 });
 
-            modelBuilder.Entity("CVDentalSteticSystem.Models.Cobros", b =>
+            modelBuilder.Entity("CVDentalSteticSystem.Models.CobroDetalles", b =>
                 {
-                    b.HasOne("CVDentalSteticSystem.Models.Procedimientos", "ProcedimientoId")
-                        .WithMany()
-                        .HasForeignKey("ProcedimientoId1");
-
-                    b.HasOne("CVDentalSteticSystem.Models.Usuarios", "UsuarioId")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId1");
+                    b.HasOne("CVDentalSteticSystem.Models.Cobros", null)
+                        .WithMany("CobroDetalles")
+                        .HasForeignKey("CobroDetallesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CVDentalSteticSystem.Models.ProcedimientosDetalles", b =>

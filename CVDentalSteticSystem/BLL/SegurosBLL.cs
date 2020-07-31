@@ -1,7 +1,6 @@
 ﻿using CVDentalSteticSystem.DAL;
 using CVDentalSteticSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using Syncfusion.Blazor.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace CVDentalSteticSystem.BLL
 {
-    public class CobrosBLL
+    public class SegurosBLL
     {
-        public static bool Guardar(Cobros cobros)
+        public static bool Guardar(Seguros seguro)
         {
-            if (!Existe(cobros.CobroId))
+            if (!Existe(seguro.SeguroId))
             {
-                return Insertar(cobros);
+                return Insertar(seguro);
             }
             else
             {
-                return Modificar(cobros);
+                return Modificar(seguro);
             }
         }
 
@@ -31,7 +30,7 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
-                encontrado = contexto.Cobros.Any(c => c.CobroId == id);
+                encontrado = contexto.Seguros.Any(s => s.SeguroId == id);
             }
             catch (Exception)
             {
@@ -45,14 +44,14 @@ namespace CVDentalSteticSystem.BLL
             return encontrado;
         }
 
-        private static bool Insertar(Cobros cobros)
+        private static bool Insertar(Seguros seguro)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
 
             try
             {
-                contexto.Cobros.Add(cobros);
+                contexto.Seguros.Add(seguro);
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -67,21 +66,14 @@ namespace CVDentalSteticSystem.BLL
             return paso;
         }
 
-        private static bool Modificar(Cobros cobros)
+        private static bool Modificar(Seguros seguro)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
 
             try
             {
-                contexto.Database.ExecuteSqlRaw($"Delete FROM CobroDetalles where CobroId = {cobros.CobroId}");
-
-                foreach (var item in cobros.CobroDetalles)
-                {
-                    contexto.Entry(item).State = EntityState.Added;
-                }
-
-                contexto.Entry(cobros).State = EntityState.Modified;
+                contexto.Entry(seguro).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
             }
             catch (Exception)
@@ -103,11 +95,11 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
-                var cobro = contexto.Cobros.Find(id);
+                var seguro = contexto.Seguros.Find(id);
 
-                if (cobro != null)
+                if (seguro != null)
                 {
-                    contexto.Cobros.Remove(cobro);
+                    contexto.Seguros.Remove(seguro);
                     paso = contexto.SaveChanges() > 0;
                 }
             }
@@ -123,17 +115,14 @@ namespace CVDentalSteticSystem.BLL
             return paso;
         }
 
-        public static Cobros Buscar(int id)
+        public static Seguros Buscar(int id)
         {
             Contexto contexto = new Contexto();
-            Cobros cobro;
+            Seguros seguro;
 
             try
             {
-                cobro = contexto.Cobros
-                        .Where(c => c.CobroId == id)
-                        .Include(cd => cd.CobroDetalles)
-                        .FirstOrDefault();
+                seguro = contexto.Seguros.Find(id);
             }
             catch (Exception)
             {
@@ -143,17 +132,17 @@ namespace CVDentalSteticSystem.BLL
             {
                 contexto.Dispose();
             }
-            return cobro;
+            return seguro;
         }
 
-        public static List<Cobros> GetList(Expression<Func<Cobros, bool>> criterio)
+        public static List<Seguros> GetList(Expression<Func<Seguros, bool>> criterio)
         {
-            List<Cobros> lista = new List<Cobros>();
+            List<Seguros> lista = new List<Seguros>();
             Contexto contexto = new Contexto();
 
             try
             {
-                lista = contexto.Cobros.Where(criterio).ToList();
+                lista = contexto.Seguros.Where(criterio).ToList();
             }
             catch (Exception)
             {
@@ -167,13 +156,13 @@ namespace CVDentalSteticSystem.BLL
             return lista;
         }
 
-        public static List<Cobros> GetCitas()
+        public static List<Seguros> GetSeguros()
         {
-            List<Cobros> lista = new List<Cobros>();
+            List<Seguros> lista = new List<Seguros>();
             Contexto contexto = new Contexto();
             try
             {
-                lista = contexto.Cobros.ToList();
+                lista = contexto.Seguros.ToList();
             }
             catch (Exception)
             {
@@ -185,31 +174,6 @@ namespace CVDentalSteticSystem.BLL
             }
 
             return lista;
-        }
-
-        public static void PagarMonto(int id, decimal monto)
-        {
-            Contexto contexto = new Contexto();
-            var paciente = PacientesBLL.Buscar(id);
-
-            try
-            {
-                if(paciente != null)
-                {
-                    paciente.Balance -= monto;
-                    PacientesBLL.Guardar(paciente);
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
         }
     }
 }
-

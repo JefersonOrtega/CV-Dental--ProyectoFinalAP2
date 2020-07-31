@@ -1,0 +1,147 @@
+﻿@page "/Seguros"
+
+@using CVDentalSteticSystem.BLL
+
+
+@inject IToastService toast
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
+&& EsAutorizado)
+{
+    <EditForm Model="Seguro" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
+        <div class="card">
+            <div class="card-header">
+                <h3>Registro de Seguros</h3>
+            </div>
+
+            <div class="card-body">
+                <form>
+                    @*SeguroId*@
+                    <div class="form-row align-items-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Seguro Id</label>
+                                <div class="input-group">
+                                    <InputNumber @bind-Value="Seguro.SeguroId" class="form-control col-4" />
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*Nombre Seguro*@
+                    <div class="form-group">
+                        <label>Nombre del seguro</label>
+                        <InputText @bind-Value="Seguro.Nombre" class="form-control" />
+                        <ValidationMessage For="@(() => Seguro.Nombre)" />
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="form-group text-center" display: in line-block>
+                    <button type="button" class="btn btn-lg btn-primary" @onclick="Nuevo">Nuevo</button>
+                    <button type="submit" class="btn btn-lg btn-success">Guardar</button>
+                    <button type="button" class="btn btn-lg btn-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@code{
+    [Parameter]
+    public int SeguroId { get; set; }
+
+    private Seguros Seguro = new Seguros();
+
+    public bool EsAutorizado = false;
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+
+        Buscar();
+
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
+            AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
+        {
+            EsAutorizado = true;
+        }
+    }
+
+    public void Nuevo()
+    {
+        Seguro = new Seguros();
+    }
+
+    private void Buscar()
+    {
+        if (Seguro.SeguroId > 0)
+        {
+            var encontrado = SegurosBLL.Buscar(Seguro.SeguroId);
+            if (encontrado != null)
+            {
+                this.Seguro = encontrado;
+            }
+
+            else
+            {
+                toast.ShowWarning("No Encontrado");
+            }
+        }
+    }
+
+    public void Guardar()
+    {
+        bool guardo;
+        guardo = SegurosBLL.Guardar(Seguro);
+
+        if (guardo)
+        {
+            Nuevo();
+            toast.ShowSuccess("Guardado Correctamente");
+        }
+        else
+        {
+            toast.ShowError("No fue Posible Guardar");
+        }
+    }
+
+    public void Eliminar()
+    {
+        bool elimino;
+        elimino = SegurosBLL.Eliminar(Seguro.SeguroId);
+
+        if (elimino)
+        {
+            Nuevo();
+            toast.ShowSuccess("Eliminado Correctamente");
+        }
+        else
+            toast.ShowError("No fue posible eliminar");
+    }
+
+}
