@@ -1,0 +1,149 @@
+﻿@page "/ConsultaCobros"
+
+@using CVDentalSteticSystem.BLL
+
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
+&& EsAutorizado)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta de Cobros</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-4">
+                    <label>Filtro: </label>
+                    <select @bind="eleccion" class="form-control  col-4" placeholder="Seleccione un Filtro">
+                        <option value="0">Todo</option>
+                        <option value="1">Id</option>
+                        <option value="2">PacienteId</option>
+                        <option value="3">ProcedimientoId</option>
+                        <option value="4">Fecha</option>
+                    </select>
+                </div>
+
+                <div class="form-group   col-6">
+                    <label>Criterio</label>
+                    <div class="input-group">
+                        <input type="text" @bind=" criterio" class="form-control" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>CobroId</th>
+                        <th>PacienteId</th>
+                        <th>ProcedimientoId</th>
+                        <th>Monto</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in lista)
+                    {
+                        <tr>
+                            <td>@item.CobroId</td>
+                            <td>@item.PacienteId</td>
+                            <td>@item.ProcedimientoId</td>
+                            <td>@item.Monto</td>
+                            <td>@item.Fecha</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
+
+@code {
+    List<Cobros> lista = new List<Cobros>();
+    List<Pacientes> listaPacientes = new List<Pacientes>();
+    private string eleccion;
+    private string criterio;
+    public bool EsAutorizado = false;
+
+    protected override void OnInitialized()
+    {
+        lista = CobrosBLL.GetList(x => true);
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador"))
+        {
+            EsAutorizado = true;
+        }
+    }
+
+    private void Consultar()
+    {
+        int seleccion = Convert.ToInt32(eleccion);
+
+        if (criterio.Trim().Length > 0)
+        {
+            switch (seleccion)
+            {
+                case 0:
+                    {
+                        lista = CobrosBLL.GetList(x => true);
+
+                        break;
+                    }
+                case 1: //id
+                    {
+                        int id = int.Parse(criterio);
+                        lista = CobrosBLL.GetList(c => c.CobroId == id);
+
+                        break;
+
+                    }
+                case 2: //Nombres
+                    {
+                        //lista = CobrosBLL.GetList(c => c.PacienteId == listaPacientes.Select(p => p.Nombres.Equals(c.PacienteId)).FirstOrDefault());
+
+                        break;
+                    }
+                case 3: //Nombre de Usuario
+                    {
+                        //lista = CobrosBLL.GetList(p => p.Fecha == criterio);
+
+                        break;
+                    }
+                case 4: //Nivel de Acceso
+                    {
+                        //lista = CobrosBLL.GetList(p => p.Monto);
+
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            lista = CobrosBLL.GetList(x => true);
+
+        }
+    }
+
+}

@@ -1,0 +1,130 @@
+﻿@page "/ConsultaTipoCitas"
+
+@using CVDentalSteticSystem.BLL
+
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
+&& EsAutorizado)
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>Consulta de Tipo de Citas</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-4">
+                    <label>Filtro: </label>
+                    <select @bind="eleccion" class="form-control  col-4" placeholder="Seleccione un Filtro">
+                        <option value="0">Todo</option>
+                        <option value="1">Id</option>
+                        <option value="2">Nombre</option>
+                    </select>
+                </div>
+
+                <div class="form-group   col-6">
+                    <label>Criterio</label>
+                    <div class="input-group">
+                        <input type="text" @bind=" criterio" class="form-control" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>TipoCita Id</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in lista)
+                    {
+                        <tr>
+                            <td>@item.TipoCitaId</td>
+                            <td>@item.Nombre</td>
+                            <td>@item.Descripcion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
+
+@code {
+    List<TipoCitas> lista = new List<TipoCitas>();
+    private string eleccion;
+    private string criterio;
+    public bool EsAutorizado = false;
+
+    protected override void OnInitialized()
+    {
+        lista = TipoCitasBLL.GetList(x => true);
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador"))
+        {
+            EsAutorizado = true;
+        }
+    }
+
+    private void Consultar()
+    {
+        int seleccion = Convert.ToInt32(eleccion);
+
+        if (criterio.Trim().Length > 0)
+        {
+            switch (seleccion)
+            {
+                case 0:
+                    {
+                        lista = TipoCitasBLL.GetList(x => true);
+
+                        break;
+                    }
+                case 1: //id
+                    {
+                        int id = int.Parse(criterio);
+                        lista = TipoCitasBLL.GetList(p => p.TipoCitaId == id);
+
+                        break;
+
+                    }
+                case 2: //Nombres
+                    {
+                        lista = TipoCitasBLL.GetList(p => p.Nombre.ToLower().Contains(criterio.ToLower()));
+
+                        break;
+                    }
+            }
+        }
+        else
+        {
+            lista = TipoCitasBLL.GetList(x => true);
+
+        }
+    }
+
+}
