@@ -132,6 +132,7 @@
             EsAutorizado = true;
         }
 
+
         PageSize = 5;
         TotalPaginas = (int)Math.Ceiling(lista.Count() / (decimal)PageSize);
         listaItems = lista.Take(PageSize).ToList();
