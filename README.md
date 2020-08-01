@@ -13,7 +13,8 @@ Luego de ingresado se pueden cambiar los datos de este usuario. Además, sólo e
 # Registros
 ## Pacientes
 
-![imagen](https://user-images.githubusercontent.com/54722249/69553116-f852fd00-0f75-11ea-9e39-48afa3ad2509.png)
+![RegistroPacientes](https://user-images.githubusercontent.com/54722249/89110893-8c3a6a00-d41d-11ea-93db-30f12239be64.png)
+
 
 Esta página permite al usuario registrar nuevos pacientes, de igual modo modificar y eliminar pacientes existentes. 
 
