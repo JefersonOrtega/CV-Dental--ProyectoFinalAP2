@@ -1,6 +1,7 @@
 ﻿using CVDentalSteticSystem.DAL;
 using CVDentalSteticSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.Blazor.DropDowns;
 using Syncfusion.Blazor.Schedule;
 using System;
 using System.Collections.Generic;
@@ -77,13 +78,27 @@ namespace CVDentalSteticSystem.BLL
             bool paso = false;
             Contexto contexto = new Contexto();
 
+            var anterior = CobrosBLL.Buscar(cobros.CobroId);
             try
             {
-                contexto.Database.ExecuteSqlRaw($"Delete FROM CobroDetalles where CobroId = {cobros.CobroId}");
+                /*Pacientes paciente = PacientesBLL.Buscar(cobros.PacienteId);
+                paciente.Balance += anterior.Monto; //todo: Revisar funcionamiento
+                paciente.Balance -= cobros.Monto;*/
+
+                foreach (var item in anterior.CobroDetalles)
+                {
+                    if (!cobros.CobroDetalles.Exists(c => c.CobroDetallesId == item.CobroDetallesId))
+                    {
+                        contexto.Entry(item).State = EntityState.Deleted;
+                    }
+                }
 
                 foreach (var item in cobros.CobroDetalles)
                 {
-                    contexto.Entry(item).State = EntityState.Added;
+                    if (item.CobroDetallesId == 0)
+                        contexto.Entry(item).State = EntityState.Added;
+                    else
+                        contexto.Entry(item).State = EntityState.Modified;
                 }
 
                 contexto.Entry(cobros).State = EntityState.Modified;

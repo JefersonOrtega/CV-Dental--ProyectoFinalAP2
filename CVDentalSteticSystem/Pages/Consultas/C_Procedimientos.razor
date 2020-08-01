@@ -1,9 +1,12 @@
 ﻿@page "/ConsultaProcedimientos"
 
 @using CVDentalSteticSystem.BLL
+@using CVDentalSteticSystem.Pages.ReportesComponents
+@using CVDentalSteticSystem.Pages.Reportes
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
-
+@inject IModalService modal
+@inject IToastService toast
 <AuthorizeView>
 
 
@@ -33,13 +36,13 @@
                 <div class="form-group col-4">
                     <label>Filtro: </label>
                     <select @bind="eleccion" class="form-control  col-4" placeholder="Seleccione un Filtro">
-                        <option value="1">Id</option>
-                        <option value="2">Paciente</option>
-                        <option value="3">Tipo de Procedimiento</option>
-                        <option value="4">En Proceso</option>
-                        <option value="5">Concluidos</option>
-                        <option value="6">Cobrados</option>
-                        <option value="7">No Cobrados</option>
+                        <option value="0">Id</option>
+                        <option value="1">Paciente</option>
+                        <option value="2">Tipo de Procedimiento</option>
+                        <option value="3">En Proceso</option>
+                        <option value="4">Concluidos</option>
+                        <option value="5">Cobrados</option>
+                        <option value="6">No Cobrados</option>
 
                     </select>
                 </div>
@@ -125,7 +128,7 @@
             </div>
         </div>
         <div class="card-footer">
-             <div class="form-group text-center" display: inline-block>
+            <div class="form-group text-center" display: inline-block>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
 
@@ -155,11 +158,16 @@
                         <li class="page-item">
                             <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Ultimo"))" tabindex="-1"> @(">>") </button>
                         </li>
-                        
+
                     </ul>
                 </nav>
             </div>
         </div>
+
+        <div class="card-footer">
+            <button type="button" class="btn btn-lg btn-warning" @onclick="GenerarReporte"> <i class="oi oi-print" aria-hidden="true" /> Imprimir</button>
+        </div>
+
     </div>
 }
 
@@ -168,7 +176,7 @@
     List<Procedimientos> listaProcedimientos = new List<Procedimientos>();
     List<Procedimientos> listaItems = new List<Procedimientos>();
     private string eleccion;
-    private string criterio="";
+    private string criterio = "";
     public bool EsAutorizado = false;
     public decimal TotalSinCobrar = 0;
     public Pacientes PacienteSelecionado = new Pacientes();
@@ -261,14 +269,8 @@
         if (eleccion == "2")
             criterio = Convert.ToString(PacienteSelecionado.PacienteId);
 
-        if (criterio.Trim().Length <= 0 && seleccion!=3 && seleccion != 4 && seleccion != 5 && seleccion != 6)
+        if (criterio.Trim().Length > 0)
         {
-            listaProcedimientos = ProcedimientosBLL.GetList(x => true);
-            ObtenerTotalSinCobrar(listaProcedimientos);
-        }
-        else
-        {
-
             switch (seleccion)
             {
                 case 0: //id
@@ -293,31 +295,49 @@
                         ActualizarListaItems(numeroPagina);
                         break;
                     }
-                case 3: //En Proceso
-                    {
-                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.Estado.ToLower() == "en proceso");
-                        ActualizarListaItems(numeroPagina);
-                        break;
-                    }
-                case 4: //Concluidos
-                    {
-                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.Estado.ToLower() == "concluido");
-                        ActualizarListaItems(numeroPagina);
-                        break;
-                    }
-                case 5: //Cobrados
-                    {
-                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.EsCobrado == true);
-                        ActualizarListaItems(numeroPagina);
-                        break;
-                    }
-                case 6: //No Cobrados
-                    {
-                        listaProcedimientos = ProcedimientosBLL.GetList(p => p.EsCobrado == false);
-                        ActualizarListaItems(numeroPagina);
-                        break;
-                    }
             }
+
+        }
+        else
+        {
+            if( seleccion > 2)
+            {
+                switch (seleccion)
+                {
+                    case 3: //En Proceso
+                        {
+                            listaProcedimientos = ProcedimientosBLL.GetList(p => p.Estado.ToLower().Contains("en proceso"));
+                            ActualizarListaItems(numeroPagina);
+                            break;
+                        }
+                    case 4: //Concluidos
+                        {
+                            listaProcedimientos = ProcedimientosBLL.GetList(p => p.Estado.ToLower() == "concluido");
+                            ActualizarListaItems(numeroPagina);
+                            break;
+                        }
+                    case 5: //Cobrados
+                        {
+                            listaProcedimientos = ProcedimientosBLL.GetList(p => p.EsCobrado == true);
+                            ActualizarListaItems(numeroPagina);
+                            break;
+                        }
+                    case 6: //No Cobrados
+                        {
+                            listaProcedimientos = ProcedimientosBLL.GetList(p => p.EsCobrado == false);
+                            ActualizarListaItems(numeroPagina);
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                listaProcedimientos = ProcedimientosBLL.GetList(x => true);
+                ActualizarListaItems(numeroPagina);
+            }
+
+
+
         }
     }
 
@@ -338,6 +358,22 @@
         {
             if (item.EsCobrado == false)
                 TotalSinCobrar += item.Monto;
+        }
+    }
+
+    public void GenerarReporte()
+    {
+
+        if (listaProcedimientos.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", listaProcedimientos);
+
+            modal.Show<VerProcedimientosReport>("Reporte de Procedimientos", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
         }
     }
 }

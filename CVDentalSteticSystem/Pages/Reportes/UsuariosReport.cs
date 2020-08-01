@@ -23,8 +23,9 @@ namespace CVDentalSteticSystem.Pages.Reportes
 
         List<Usuarios> listaUsuarios = UsuariosBLL.GetUsuarios();
 
-        public byte[] Reporte()
+        public byte[] Reporte(List<Usuarios> usuarios)
         {
+            listaUsuarios = usuarios;
             document = new Document(PageSize.Letter, 15f, 15f, 20f, 20f);
             pdfTable = new PdfPTable(columnas);
 

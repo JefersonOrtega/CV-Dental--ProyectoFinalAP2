@@ -23,8 +23,9 @@ namespace CVDentalSteticSystem.Pages.Reportes
 
         List<TiposProcedimientos> listaTiposProcedimientos = TiposProcedimientosBLL.GetTiposProcedimientos();
 
-        public byte[] Reporte()
+        public byte[] Reporte(List<TiposProcedimientos> tiposProcedimientos)
         {
+            listaTiposProcedimientos = tiposProcedimientos;
             document = new Document(PageSize.Letter, 25f, 25f, 20f, 20f);
             pdfTable = new PdfPTable(columnas);
 

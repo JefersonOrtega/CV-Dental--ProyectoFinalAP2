@@ -9,6 +9,11 @@
 }
 
 @code {
+    [Parameter]
+    public List<Procedimientos> lista { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
     byte[] Data;
     string pdfContent = "";
 
@@ -17,12 +22,11 @@
         VerReporte();
     }
 
-    private async Task VerReporte()
+    public void VerReporte()
     {
+        ProcedimientosReport procedimientos = new ProcedimientosReport();
 
-        ProcedimientosReport Procedimientos = new Reportes.ProcedimientosReport();
-
-        Data = Procedimientos.Reporte();
+        Data = procedimientos.Reporte(lista);
 
         pdfContent = "data:application/pdf;base64,";
         pdfContent += System.Convert.ToBase64String(Data);

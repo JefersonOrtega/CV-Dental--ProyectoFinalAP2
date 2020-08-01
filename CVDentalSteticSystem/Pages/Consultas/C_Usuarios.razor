@@ -1,9 +1,13 @@
 ﻿@page "/ConsultaUsuarios"
 
 @using CVDentalSteticSystem.BLL
-
+@using CVDentalSteticSystem.Pages.ReportesComponents
+@using CVDentalSteticSystem.Pages.Reportes
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IModalService modal
+@inject IToastService toast
+
 
 <AuthorizeView>
 
@@ -78,7 +82,7 @@
         </div>
 
         <div class="card-footer">
-             <div class="form-group text-center" display: inline-block>
+            <div class="form-group text-center" display: inline-block>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
 
@@ -108,12 +112,15 @@
                         <li class="page-item">
                             <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Ultimo"))" tabindex="-1"> @(">>") </button>
                         </li>
-                        
+
                     </ul>
                 </nav>
             </div>
         </div>
 
+        <div class="card-footer">
+            <button type="button" class="btn btn-lg btn-warning" @onclick="GenerarReporte"> <i class="oi oi-print" aria-hidden="true" /> Imprimir</button>
+        </div>
     </div>
 }
 
@@ -209,6 +216,22 @@
         {
             lista = UsuariosBLL.GetList(x => true);
 
+        }
+    }
+
+    public void GenerarReporte()
+    {
+
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            modal.Show<VerUsuariosReport>("Reporte de Usuarios", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
         }
     }
 

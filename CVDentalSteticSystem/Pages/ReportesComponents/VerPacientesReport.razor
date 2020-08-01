@@ -5,10 +5,15 @@
 
 @if (Data is { })
 {
-    <object data="@pdfContent" width="1500" height="600"></object>
+    <object data="@pdfContent" width="1500" height="600" name="_blank"></object>
 }
 
 @code {
+    [Parameter]
+    public List<Pacientes> lista { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
     byte[] Data;
     string pdfContent = "";
 
@@ -17,12 +22,11 @@
         VerReporte();
     }
 
-    private async Task VerReporte()
+    public void VerReporte()
     {
+        PacientesReport pacientes = new PacientesReport();
 
-        PacientesReport pacientes = new Reportes.PacientesReport();
-
-        Data = pacientes.Reporte();
+        Data = pacientes.Reporte(lista);
 
         pdfContent = "data:application/pdf;base64,";
         pdfContent += System.Convert.ToBase64String(Data);
