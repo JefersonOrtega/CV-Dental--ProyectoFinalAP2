@@ -40,7 +40,7 @@ En esta pagina los usuarios con nivel de administrador podrán registrar nuevos 
 
 # Consultas
 
-![imagen](https://user-images.githubusercontent.com/54722249/69556474-24bd4800-0f7b-11ea-9176-ec64d9b17343.png)
+![image](https://user-images.githubusercontent.com/54722249/89112472-14763a80-d431-11ea-967c-06aeaa218ffc.png)
 
 Esta es la Consulta de pacientes, en la cual se puede filtrar por id, nombres, apellidos, direccion y balance. Al pulsar el botón consultar, se cargaran en la tabla los datos que cumplan con los filtros dados. Cabe destacar que si no se coloca ningun filtro, se cargaran todos los datos de esta entidad.
 
