@@ -57,6 +57,7 @@
                     <div class="form-group">
                         <label>Fecha</label>
                         <InputDate @bind-Value="Usuario.Fecha" class="form-control" />
+                        <ValidationMessage For="@(()=>Usuario.Fecha)" />
                     </div>
 
 

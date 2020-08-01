@@ -47,7 +47,7 @@
                     <div class="input-group">
                         <input type="text" @bind=" criterio" class="form-control" />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                            <button class="btn btn-primary" @onclick="@(c => Consultar(0))">Consultar</button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,8 @@
                         <th>Apellidos</th>
                         <th>Dirección</th>
                         <th>Teléfono</th>
-                        <th>Email</th>
+                        <th>Genero</th>
+                        <th>Edad</th>
                         <th>FechaRegistro</th>
                         <th>Seguro Médico</th>
                         <th>Balance</th>
@@ -68,7 +69,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var item in lista)
+                    @foreach (var item in listaItems)
                     {
                         <tr>
                             <td>@item.PacienteId</td>
@@ -76,9 +77,11 @@
                             <td>@item.Apellidos</td>
                             <td>@item.Direccion</td>
                             <td>@item.Telefono</td>
-                            <td>@item.Email</td>
-                            <td>@item.FechaNacimiento</td>
-                            <td>@item.SeguroMedico</td>
+                            <td>@item.Genero</td>
+                            <td>@((((DateTime.Now - @item.FechaNacimiento).TotalDays) / 365).ToString("N1"))</td>
+                            <td>@item.FechaRegistro</td>
+                            @*<td>@SegurosBLL.Buscar(@item.SeguroId).Nombre</td>*@
+                            <td>@item.SeguroId</td>
                             <td>@item.Balance</td>
                         </tr>
                     }
@@ -91,6 +94,41 @@
                 <label>Total Balances</label>
                 <input type="text" readonly @bind="TotalBalances" class="form-control" />
             </div>
+
+             <div class="form-group text-center" display: inline-block>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item">
+                            <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Primero"))" tabindex="-1"> @("<<") </button>
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Anterior"))" tabindex="-1"> @("<") </button>
+                        </li>
+
+
+                        @for (int i = 0; i < TotalPaginas; i++)
+                        {
+                            var numeroPagina = i;
+                            <li class="page-item">
+                                <button class="@(PaginaActual == numeroPagina ? "page-link btn btn-dark" : "page-link btn btn-danger")"
+                                        @onclick="@(c => Consultar(numeroPagina))">
+                                    @(i + 1)
+                                </button>
+                            </li>
+                        }
+
+                        <li class="page-item">
+                            <button type="button" class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Siguiente"))" tabindex="-1">@(">")</button>
+
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Ultimo"))" tabindex="-1"> @(">>") </button>
+                        </li>
+                        
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 }
@@ -98,24 +136,61 @@
 @code {
 
     List<Pacientes> lista = new List<Pacientes>();
+    List<Pacientes> listaItems = new List<Pacientes>();
+
     private string eleccion;
-    private string criterio;
+    private string criterio="";
     decimal TotalBalances = 0;
     public bool EsAutorizado = false;
+
+    public int PageSize { get; set; }
+    public int TotalPaginas { get; set; }
+    public int PaginaActual { get; set; }
+
 
     protected override void OnInitialized()
     {
         lista = PacientesBLL.GetList(x => true);
         ObtenerBalances(lista);
+        PageSize = 5;
 
-        if(AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
-            AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
+        AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
         {
             EsAutorizado = true;
         }
+
+        TotalPaginas = (int)Math.Ceiling(lista.Count() / (decimal)PageSize);
+        listaItems = lista.Take(PageSize).ToList();
+
     }
 
-    private void Consultar()
+    private void ActualizarListaItems(int numeroPagina)
+    {
+        listaItems = lista.Skip(numeroPagina * PageSize).Take(PageSize).ToList();
+        TotalPaginas = (int)Math.Ceiling(lista.Count() / (decimal)PageSize);
+        PaginaActual = numeroPagina;
+        ObtenerBalances(lista);
+    }
+
+    private void NavegateTo(string direccion)
+    {
+        if (direccion == "Anterior" && PaginaActual != 0)
+            PaginaActual -= 1;
+        if (direccion == "Siguiente" && PaginaActual != TotalPaginas)
+            PaginaActual += 1;
+
+        if (direccion == "Primero" && PaginaActual != 0)
+            PaginaActual = 0;
+        if (direccion == "Ultimo" && PaginaActual != TotalPaginas)
+            PaginaActual = TotalPaginas-1;
+
+        ActualizarListaItems(PaginaActual);
+    }
+
+
+
+    private void Consultar(int numeroPagina)
     {
         int seleccion = Convert.ToInt32(eleccion);
 
@@ -126,40 +201,40 @@
                 case 0:
                     {
                         lista = PacientesBLL.GetList(x => true);
-                        ObtenerBalances(lista);
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 1: //id
                     {
                         int id = int.Parse(criterio);
                         lista = PacientesBLL.GetList(p => p.PacienteId == id);
-                        ObtenerBalances(lista);
+                        ActualizarListaItems(numeroPagina);
                         break;
 
                     }
                 case 2: //Nombres
                     {
                         lista = PacientesBLL.GetList(p => p.Nombres.ToLower().Contains(criterio.ToLower()));
-                        ObtenerBalances(lista);
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 3: //Apellidos
                     {
                         lista = PacientesBLL.GetList(p => p.Apellidos.ToLower().Contains(criterio.ToLower()));
-                        ObtenerBalances(lista);
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 4: //Direccion
                     {
                         lista = PacientesBLL.GetList(p => p.Direccion.ToLower() == criterio.ToLower());
-                        ObtenerBalances(lista);
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 5: //Balance
                     {
                         decimal balance = Convert.ToDecimal(criterio);
                         lista = PacientesBLL.GetList(p => p.Balance == balance);
-                        ObtenerBalances(lista);
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
 
@@ -168,7 +243,7 @@
         else
         {
             lista = PacientesBLL.GetList(x => true);
-            ObtenerBalances(lista);
+            ActualizarListaItems(numeroPagina);
         }
     }
 
@@ -180,4 +255,6 @@
             TotalBalances += item.Balance;
         }
     }
+
+
 }

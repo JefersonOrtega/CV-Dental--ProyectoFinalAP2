@@ -194,8 +194,14 @@
         if (eleccion == "2")
             criterio = Convert.ToString(PacienteSelecionado.PacienteId);
 
-        if (criterio.Trim().Length > 0 && Convert.ToInt32(seleccion)<3)
+        if (criterio.Trim().Length <= 0 && Convert.ToInt32(seleccion)>3)
         {
+            listaProcedimientos = ProcedimientosBLL.GetList(x => true);
+            ObtenerTotalSinCobrar(listaProcedimientos);
+        }
+        else
+        {
+
             switch (seleccion)
             {
                 case 0: //id
@@ -245,11 +251,6 @@
                         break;
                     }
             }
-        }
-        else
-        {
-            listaProcedimientos = ProcedimientosBLL.GetList(x => true);
-            ObtenerTotalSinCobrar(listaProcedimientos);
         }
     }
 

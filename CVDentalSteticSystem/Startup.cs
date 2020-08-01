@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using Syncfusion.Blazor;
+using Blazored.Modal;
 
 namespace CVDentalSteticSystem
 {
@@ -56,6 +57,8 @@ namespace CVDentalSteticSystem
             services.AddScoped<HttpClient>();
             // BLAZOR COOKIE Auth Code (end)
             // ******
+
+            services.AddBlazoredModal();
 
         }
 

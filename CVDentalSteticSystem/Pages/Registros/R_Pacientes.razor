@@ -88,8 +88,10 @@
                     <div class="form-group">
                         <label>Genero</label>
                         <InputSelect @bind-Value="Paciente.Genero" class="form-control">
+                            <option value="" disabled selected>Seleccione un Genero</option>
                             <option value="Femenino">Femenino</option>
                             <option value="Masculino">Masculino</option>
+                            <option value="No especificar">No especificar</option>
                         </InputSelect>
                         <ValidationMessage For="@(()=>Paciente.Genero)" />
                     </div>
@@ -103,7 +105,13 @@
                     @*Seguro Medico*@
                     <div class="form-group">
                         <label>Seguro Médico</label>
-                        <InputText @bind-Value="Paciente.SeguroMedico" class="form-control" />
+                        <InputSelectNumber @bind-Value="Paciente.SeguroId" class="form-control">
+                            <option value="" disabled selected>Seleccione un Seguro médico</option>
+                            @foreach (var auxiliar in CargarSeguros())
+                            {
+                                <option value="@auxiliar.SeguroId">@auxiliar.Nombre</option>
+                            }
+                        </InputSelectNumber>
                     </div>
 
                     @*Alergias*@
@@ -146,7 +154,7 @@
 
         Buscar();
 
-        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") || 
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
             AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
         {
             EsAutorizado = true;
@@ -170,6 +178,23 @@
                 toast.ShowWarning("No encontrado");
         }
     }
+
+    public List<Seguros> CargarSeguros()
+    {
+        List<Seguros> lista = new List<Seguros>();
+
+        try
+        {
+            lista = SegurosBLL.GetSeguros();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+        return lista;
+    }
+
 
     public void Guardar()
     {

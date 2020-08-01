@@ -22,11 +22,13 @@ namespace CVDentalSteticSystem.Models
         [EmailAddress(ErrorMessage = "Introduzca una direccion de correo electrónico valida")]
         public string Email { get; set; }
         [Required(ErrorMessage="Es necesario seleccionar el genero")]
-        public string Genero { get; set; }      
+        public string Genero { get; set; }
+        [Range(typeof(DateTime), minimum: "1/1/1910", maximum: "1/1/2060", ErrorMessage = "La fecha esta fuera de rango")]
         public DateTime FechaNacimiento { get; set; }
-        public DateTime FechaRegistro { get; set; }
-        public string SeguroMedico { get; set; }
+        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        public int SeguroId { get; set; }
         public string Alergias { get; set; }
         public decimal Balance { get; set; }
+
     }
 }

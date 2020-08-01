@@ -53,7 +53,7 @@
 
                     @*PacienteId*@
                     <div class="form-group">
-                        <label>Paciente Id</label>
+                        <label>Paciente</label>
                         <InputSelectNumber @bind-Value="Procedimiento.PacienteId" class="form-control">
                             <option value="" disabled selected>Seleccione un Paciente</option>
                             @foreach (var auxiliar in CargarPacientes())
@@ -94,23 +94,22 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-row">
-                                @*CitaId
-                    <div class="form-group" col-4>
-                        <label>CitaId</label>
-                        <InputSelectNumber @bind-Value="" class="form-control" ">
-                            @foreach (var item in )
-                                {
-                                <option value="@item.Id">@item.Descripcion</option>
-                                }
-                        </InputSelectNumber>
-                        <ValidationMessage For="@(()=>)" />
-                    </div>*@
+                                @*Cita*@
+                                <div class="form-group col-4" >
+                                    <label>CitaId</label>
+                                    <InputSelectNumber @bind-Value="citaId" class="form-control">
+                                        @foreach (var item in CargarCitas())
+                                        {
+                                        <option value="@item.CitaId">@item.Fecha</option>
+                                        }
+                                    </InputSelectNumber>
+                                </div>
 
                                 @*Descripción*@
                                 <div class="form-group ">
                                     <label>Descripción</label>
                                     <div class="input-group">
-                                        <InputText @bind-Value="Descripcion" class="form-control" />
+                                        <InputText @bind-Value="descripcion" class="form-control" />
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">
                                                 <i class="oi oi-plus" aria-hidden="true" /> Agregar
@@ -179,7 +178,8 @@
 
     private Procedimientos Procedimiento = new Procedimientos();
     public bool EsAutorizado = false;
-    private string Descripcion = "";
+    private string descripcion = "";
+    private int citaId = 0;
 
     Pacientes paciente;
 
@@ -200,7 +200,7 @@
             EsAutorizado = true;
         }
 
-
+        
     }
 
     public void Nuevo()
@@ -256,16 +256,32 @@
         return lista;
     }
 
+    public List<Citas> CargarCitas()
+    {
+        List<Citas> lista = new List<Citas>();
+        
+        try
+        {
+            lista = CitasBLL.GetList(c=>c.PacienteId == Procedimiento.PacienteId && c.Estado==false);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
+        return lista;
+    }
+
     private void AgregarDetalle()
     {
 
-        if (Descripcion != "")
+        if (descripcion != "")
         {
             Procedimiento.ProcedimientoDetalle.Add(new ProcedimientosDetalles
             {
                 //ProcedimientoId = Procedimiento.ProcedimientoId,
-                //CitaId = citaId,
-                Descripcion = this.Descripcion
+                CitaId = citaId,
+                Descripcion = descripcion
             });
         }
         else

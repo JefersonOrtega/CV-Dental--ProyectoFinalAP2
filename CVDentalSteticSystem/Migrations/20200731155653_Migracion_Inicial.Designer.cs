@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVDentalSteticSystem.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200731034450_Primera")]
-    partial class Primera
+    [Migration("20200731155653_Migracion_Inicial")]
+    partial class Migracion_Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,8 +120,8 @@ namespace CVDentalSteticSystem.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SeguroMedico")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("SeguroId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
@@ -183,6 +183,21 @@ namespace CVDentalSteticSystem.Migrations
                     b.HasIndex("ProcedimeintoDetalleId");
 
                     b.ToTable("ProcedimientosDetalles");
+                });
+
+            modelBuilder.Entity("CVDentalSteticSystem.Models.Seguros", b =>
+                {
+                    b.Property<int>("SeguroId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SeguroId");
+
+                    b.ToTable("Seguros");
                 });
 
             modelBuilder.Entity("CVDentalSteticSystem.Models.TipoCitas", b =>
@@ -264,7 +279,7 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 30, 23, 44, 49, 669, DateTimeKind.Local).AddTicks(5400),
+                            Fecha = new DateTime(2020, 7, 31, 11, 56, 53, 683, DateTimeKind.Local).AddTicks(5914),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"

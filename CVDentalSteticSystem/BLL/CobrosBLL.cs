@@ -52,6 +52,11 @@ namespace CVDentalSteticSystem.BLL
 
             try
             {
+                Pacientes paciente = PacientesBLL.Buscar(cobros.PacienteId);
+                paciente.Balance -= cobros.Monto;
+
+
+                contexto.Entry(paciente).State = EntityState.Modified;
                 contexto.Cobros.Add(cobros);
                 paso = contexto.SaveChanges() > 0;
             }

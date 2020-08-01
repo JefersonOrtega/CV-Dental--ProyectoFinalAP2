@@ -1,0 +1,31 @@
+﻿@page "/ReportePacientes"
+
+@using Reportes
+@inject IJSRuntime js
+
+@if (Data is { })
+{
+    <object data="@pdfContent" width="1500" height="600"></object>
+}
+
+@code {
+    byte[] Data;
+    string pdfContent = "";
+
+    protected override void OnInitialized()
+    {
+        VerReporte();
+    }
+
+    private async Task VerReporte()
+    {
+
+        PacientesReport pacientes = new Reportes.PacientesReport();
+
+        Data = pacientes.Reporte();
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(Data);
+
+    }
+}

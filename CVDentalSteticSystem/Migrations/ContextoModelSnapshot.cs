@@ -118,8 +118,8 @@ namespace CVDentalSteticSystem.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SeguroMedico")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("SeguroId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
@@ -277,7 +277,7 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 31, 1, 12, 32, 499, DateTimeKind.Local).AddTicks(572),
+                            Fecha = new DateTime(2020, 7, 31, 11, 56, 53, 683, DateTimeKind.Local).AddTicks(5914),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"

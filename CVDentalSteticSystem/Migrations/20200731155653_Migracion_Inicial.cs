@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CVDentalSteticSystem.Migrations
 {
-    public partial class Primera : Migration
+    public partial class Migracion_Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,7 +54,7 @@ namespace CVDentalSteticSystem.Migrations
                     Genero = table.Column<string>(nullable: false),
                     FechaNacimiento = table.Column<DateTime>(nullable: false),
                     FechaRegistro = table.Column<DateTime>(nullable: false),
-                    SeguroMedico = table.Column<string>(nullable: true),
+                    SeguroId = table.Column<int>(nullable: false),
                     Alergias = table.Column<string>(nullable: true),
                     Balance = table.Column<decimal>(nullable: false)
                 },
@@ -78,6 +78,19 @@ namespace CVDentalSteticSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Procedimientos", x => x.ProcedimientoId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seguros",
+                columns: table => new
+                {
+                    SeguroId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nombre = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seguros", x => x.SeguroId);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,7 +183,7 @@ namespace CVDentalSteticSystem.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Fecha", "NivelAcceso", "Nombres", "Usuario" },
-                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 30, 23, 44, 49, 669, DateTimeKind.Local).AddTicks(5400), "Administrador", "admin", "admin" });
+                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 31, 11, 56, 53, 683, DateTimeKind.Local).AddTicks(5914), "Administrador", "admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcedimientosDetalles_ProcedimeintoDetalleId",
@@ -191,6 +204,9 @@ namespace CVDentalSteticSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProcedimientosDetalles");
+
+            migrationBuilder.DropTable(
+                name: "Seguros");
 
             migrationBuilder.DropTable(
                 name: "TipoCitas");
