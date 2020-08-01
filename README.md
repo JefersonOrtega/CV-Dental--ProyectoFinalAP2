@@ -20,7 +20,7 @@ Esta página permite al usuario registrar nuevos pacientes, de igual modo modifi
 
 ## Tipos de Procedimientos
 
-![imagen](https://user-images.githubusercontent.com/54722249/69553733-05242080-0f77-11ea-9ac0-ac47eb48a124.png)
+![RegistroTiposProcedimientos](https://user-images.githubusercontent.com/54722249/89110925-04a12b00-d41e-11ea-9c0c-3b2aa0c5f345.png)
 
 Esta página permite al usuario la creación de nuevos tipos de procedimientos, los cuales se podrán seleccionar desde la pagina de Procedimientos. Aquí además se puede Modificar y Eliminar Tios de rocedimientos.
 
