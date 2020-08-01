@@ -26,6 +26,7 @@ namespace CVDentalSteticSystem.Models
         [Range(typeof(DateTime), minimum: "1/1/1910", maximum: "1/1/2060", ErrorMessage = "La fecha esta fuera de rango")]
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        [Required(ErrorMessage="Debe Seleccionar un Seguro")]
         public int SeguroId { get; set; }
         public string Alergias { get; set; }
         public decimal Balance { get; set; }

@@ -41,6 +41,13 @@ namespace CVDentalSteticSystem.DAL
                 .HasMany(p => p.ProcedimientoDetalle)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Seguros>()
+                .HasData(new Models.Seguros 
+                { 
+                    SeguroId=1,
+                    Nombre= "No Posee"
+                });
         }
     }
 }
