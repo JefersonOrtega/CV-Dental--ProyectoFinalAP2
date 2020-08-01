@@ -33,7 +33,7 @@ Esta página permite al usuario guardar la informacion sobre un determinado proc
 
 ## Usuarios
 
-![imagen](https://user-images.githubusercontent.com/54722249/69555777-16226100-0f7a-11ea-82b4-f63394c0deed.png)
+![image](https://user-images.githubusercontent.com/54722249/89112453-d24cf900-d430-11ea-8ffa-3f32660beddc.png)
 
 En esta pagina los usuarios con nivel de administrador podrán registrar nuevos usuarios, asi como modificar información de un determinado usuario o eliminarlo.
 
