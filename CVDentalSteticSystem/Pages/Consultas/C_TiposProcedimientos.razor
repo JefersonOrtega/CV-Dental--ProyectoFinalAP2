@@ -46,7 +46,7 @@
                     <div class="input-group">
                         <input type="text" @bind=" criterio" class="form-control" />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" @onclick="Consultar">Consultar</button>
+                            <button class="btn btn-primary" @onclick="@(c => Consultar(0))">Consultar</button>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var item in lista)
+                    @foreach (var item in listaItems)
                     {
                         <tr>
                             <td>@item.TipoProcedimientoId</td>
@@ -73,30 +73,98 @@
                     }
                 </tbody>
             </table>
-
         </div>
+
+        <div class="card-footer">
+             <div class="form-group text-center" display: inline-block>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item">
+                            <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Primero"))" tabindex="-1"> @("<<") </button>
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Anterior"))" tabindex="-1"> @("<") </button>
+                        </li>
+
+
+                        @for (int i = 0; i < TotalPaginas; i++)
+                        {
+                            var numeroPagina = i;
+                            <li class="page-item">
+                                <button class="@(PaginaActual == numeroPagina ? "page-link btn btn-dark" : "page-link btn btn-danger")"
+                                        @onclick="@(c => Consultar(numeroPagina))">
+                                    @(i + 1)
+                                </button>
+                            </li>
+                        }
+
+                        <li class="page-item">
+                            <button type="button" class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Siguiente"))" tabindex="-1">@(">")</button>
+
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link btn btn-danger" @onclick="@(e => NavegateTo("Ultimo"))" tabindex="-1"> @(">>") </button>
+                        </li>
+                        
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
     </div>
 }
 
 @code {
 
     List<TiposProcedimientos> lista = new List<TiposProcedimientos>();
+    List<TiposProcedimientos> listaItems = new List<TiposProcedimientos>();
     private string eleccion;
     private string criterio;
     public bool EsAutorizado = false;
 
+    public int PageSize { get; set; }
+    public int TotalPaginas { get; set; }
+    public int PaginaActual { get; set; }
+
+
     protected override void OnInitialized()
     {
         lista = TiposProcedimientosBLL.GetList(x => true);
-
         if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
             AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
         {
             EsAutorizado = true;
         }
+        PageSize = 5;
+        TotalPaginas = (int)Math.Ceiling(lista.Count() / (decimal)PageSize);
+        listaItems = lista.Take(PageSize).ToList();
     }
 
-    private void Consultar()
+    private void ActualizarListaItems(int numeroPagina)
+    {
+        listaItems = lista.Skip(numeroPagina * PageSize).Take(PageSize).ToList();
+        TotalPaginas = (int)Math.Ceiling(lista.Count() / (decimal)PageSize);
+        PaginaActual = numeroPagina;
+
+    }
+
+    private void NavegateTo(string direccion)
+    {
+        if (direccion == "Anterior" && PaginaActual != 0)
+            PaginaActual -= 1;
+        if (direccion == "Siguiente" && PaginaActual != TotalPaginas)
+            PaginaActual += 1;
+
+        if (direccion == "Primero" && PaginaActual != 0)
+            PaginaActual = 0;
+        if (direccion == "Ultimo" && PaginaActual != TotalPaginas)
+            PaginaActual = TotalPaginas - 1;
+
+        ActualizarListaItems(PaginaActual);
+    }
+
+    private void Consultar(int numeroPagina)
     {
         int seleccion = Convert.ToInt32(eleccion);
 
@@ -107,34 +175,34 @@
                 case 0:
                     {
                         lista = TiposProcedimientosBLL.GetList(x => true);
-                         
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 1: //id
                     {
                         int id = int.Parse(criterio);
                         lista = TiposProcedimientosBLL.GetList(p => p.TipoProcedimientoId == id);
-                         
+                        ActualizarListaItems(numeroPagina);
                         break;
 
                     }
                 case 2: //Nombre
                     {
                         lista = TiposProcedimientosBLL.GetList(p => p.NombreProcedimiento.ToLower() == (criterio.ToLower()));
-                         
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 3: //Descripcion
                     {
                         lista = TiposProcedimientosBLL.GetList(p => p.Descripcion.ToLower().Contains(criterio.ToLower()));
-                         
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
                 case 4: //Precio
                     {
                         decimal precio = Convert.ToDecimal(criterio);
                         lista = TiposProcedimientosBLL.GetList(p => p.Precio == precio);
-                         
+                        ActualizarListaItems(numeroPagina);
                         break;
                     }
 
@@ -143,7 +211,7 @@
         else
         {
             lista = TiposProcedimientosBLL.GetList(x => true);
-             
+            ActualizarListaItems(numeroPagina);
         }
     }
 }
