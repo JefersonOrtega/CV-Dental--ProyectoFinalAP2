@@ -40,7 +40,7 @@ namespace CVDentalSteticSystem.BLL
             return encontrado;
         }
 
-        private static bool Insertar(Procedimientos procedimiento)
+        public static bool Insertar(Procedimientos procedimiento)
         {
             Contexto contexto = new Contexto();
             bool paso = false;
@@ -69,7 +69,7 @@ namespace CVDentalSteticSystem.BLL
             return paso;
         }
 
-        private static bool Modificar(Procedimientos procedimiento)
+        public static bool Modificar(Procedimientos procedimiento)
         {
             Contexto contexto = new Contexto();
 

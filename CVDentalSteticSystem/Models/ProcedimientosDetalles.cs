@@ -16,5 +16,6 @@ namespace CVDentalSteticSystem.Models
         [Required(ErrorMessage ="Es necesario introducir una descripción")]
         public string Descripcion { get; set; } //Lo que se ha hecho...
 
+        
     }
 }

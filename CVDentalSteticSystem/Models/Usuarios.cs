@@ -35,6 +35,8 @@ namespace CVDentalSteticSystem.Models
             Fecha = DateTime.Now;
         }
 
+
+
         public static string Encriptar(string cadenaEncriptada)
         {
             if (!string.IsNullOrEmpty(cadenaEncriptada))

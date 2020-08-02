@@ -24,6 +24,7 @@ namespace CVDentalSteticSystem.Models
         [Required(ErrorMessage="Es necesario seleccionar el genero")]
         public string Genero { get; set; }
         [Range(typeof(DateTime), minimum: "1/1/1910", maximum: "1/1/2060", ErrorMessage = "La fecha esta fuera de rango")]
+        [DisplayFormat(DataFormatString ="{dd-MM-yyyy}")]
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
         [Required(ErrorMessage="Debe Seleccionar un Seguro")]
@@ -31,5 +32,6 @@ namespace CVDentalSteticSystem.Models
         public string Alergias { get; set; }
         public decimal Balance { get; set; }
 
+       
     }
 }

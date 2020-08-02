@@ -26,5 +26,6 @@ namespace CVDentalSteticSystem.Models
         [ForeignKey("ProcedimeintoDetalleId")]
         public virtual List<ProcedimientosDetalles> ProcedimientoDetalle { get; set; } = new List<ProcedimientosDetalles>();
 
+        
     }
 }
