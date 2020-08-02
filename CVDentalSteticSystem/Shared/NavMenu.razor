@@ -5,7 +5,7 @@
 
 <div class="top-row pl-4 navbar navbar-dark sidebar-custom">
      <a class="profile" href="#">
-        <img src="/img/CVdental.png" width="190" height="150"  alt="">
+        <img id="im" src="/img/CVdental.png" width="190" height="150"  alt="">
     </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -49,6 +49,12 @@
                     </li>
 
                     <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="Citas">
+                            <span class="oi oi-person" aria-hidden="true"></span> Citas
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
                         <NavLink class="nav-link" href="Seguros">
                             <span class="oi oi-credit-card" aria-hidden="true"></span> Seguros
                         </NavLink>
@@ -60,12 +66,7 @@
                         </NavLink>
                     </li>
 
-                    <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="Citas">
-                            <span class="oi oi-person" aria-hidden="true"></span> Citas
-                        </NavLink>
-                    </li>
-
+                    
                     <li class="nav-item px-3">
                         <NavLink class="nav-link" href="Cobros">
                             <span class="oi oi-dollar" aria-hidden="true"></span> Cobros
@@ -86,88 +87,100 @@
                 <span class="oi oi-zoom-in" aria-hidden="true"></span> Consultas
             </NavLink>
 
-                @if (expanSubMenuC)
-                {
-                    <ul class="nav ">
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="consultapacientes">
-                                <span class="oi oi-person" aria-hidden="true"></span> Pacientes
-                            </NavLink>
-                        </li>
+            @if (expanSubMenuC)
+            {
+                <ul class="nav ">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="consultapacientes">
+                            <span class="oi oi-person" aria-hidden="true"></span> Pacientes
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="consultatiposprocedimientos">
-                                <span class="oi oi-puzzle-piece" aria-hidden="true"></span> TiposProcedimientos
-                            </NavLink>
-                        </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="consultatiposprocedimientos">
+                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> TiposProcedimientos
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="consultaprocedimientos">
-                                <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Procedimientos
-                            </NavLink>
-                        </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ConsultaTipoCitas">
+                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> TipoCitas
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ConsultaCitas">
-                                <span class="oi oi-person" aria-hidden="true"></span> Citas
-                            </NavLink>
-                        </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ConsultaCitas">
+                            <span class="oi oi-person" aria-hidden="true"></span> Citas
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ConsultaCobros">
-                                <span class="oi oi-dollar" aria-hidden="true"></span> Cobros
-                            </NavLink>
-                        </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ConsultaSeguros">
+                            <span class="oi oi-credit-card" aria-hidden="true"></span> Seguros
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ConsultaSeguros">
-                                <span class="oi oi-credit-card" aria-hidden="true"></span> Seguros
-                            </NavLink>
-                        </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="consultaprocedimientos">
+                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Procedimientos
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ConsultaTipoCitas">
-                                <span class="oi oi-puzzle-piece" aria-hidden="true"></span> TipoCitas
-                            </NavLink>
-                        </li>
+                    
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ConsultaCobros">
+                            <span class="oi oi-dollar" aria-hidden="true"></span> Cobros
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="consultausuarios">
-                                <span class="oi oi-person" aria-hidden="true"></span> Usuarios
-                            </NavLink>
-                        </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="consultausuarios">
+                            <span class="oi oi-person" aria-hidden="true"></span> Usuarios
+                        </NavLink>
+                    </li>
+                </ul>
+            }
 
-                        <!--Prueba Quitar Cuando se cree sub menu reportes-->
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ReportePacientes">
-                                <span class="oi oi-print" aria-hidden="true"></span> Pacientes
-                            </NavLink>
-                        </li>
+        </li>
+        <li class="nav nav-item px-3">
+            <NavLink class="nav-link" href="" @onclick="()=>expanSubMenuRpt = !expanSubMenuRpt">
+                <span class="oi oi-zoom-in" aria-hidden="true"></span> Reportes
+            </NavLink>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ReporteUsuarios">
-                                <span class="oi oi-print" aria-hidden="true"></span> Usuarios
-                            </NavLink>
-                        </li>
+            @if (expanSubMenuRpt)
+            {
+                <ul class="nav ">
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ReportePacientes">
+                            <span class="oi oi-print" aria-hidden="true"></span> Pacientes
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ReporteTiposProcedimientos">
-                                <span class="oi oi-print" aria-hidden="true"></span> Tipos Procedimientos
-                            </NavLink>
-                        </li>
+                   
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ReporteTiposProcedimientos">
+                            <span class="oi oi-print" aria-hidden="true"></span> Tipos Procedimientos
+                        </NavLink>
+                    </li>
 
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="ReporteProcedimientos">
-                                <span class="oi oi-print" aria-hidden="true"></span> Procedimientos
-                            </NavLink>
-                        </li>
-                    </ul>
-                }
-            
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ReporteProcedimientos">
+                            <span class="oi oi-print" aria-hidden="true"></span> Procedimientos
+                        </NavLink>
+                    </li>
+
+                     <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="ReporteUsuarios">
+                            <span class="oi oi-print" aria-hidden="true"></span> Usuarios
+                        </NavLink>
+                    </li>
+                </ul>
+            }
+
 
         </li>
 
-        <div class="align-bottom pl-4 navbar navbar-dark">
+        <div class="align-bottom ">
             <li class="nav-item px-3">
                 @if (authenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)
                 {
