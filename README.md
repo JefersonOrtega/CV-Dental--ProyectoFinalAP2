@@ -26,20 +26,21 @@ Esta página permite al usuario la creación de nuevos tipos de procedimientos, 
 
 ## Procedimientos
 
-![imagen](https://user-images.githubusercontent.com/54722249/69554284-f12cee80-0f77-11ea-8c80-b41efce581a5.png)
+![image](https://user-images.githubusercontent.com/54722249/89112441-9d40a680-d430-11ea-899e-d01d2927e94f.png)
+
 
 Esta página permite al usuario guardar la informacion sobre un determinado proceso que se le comience a realizar a un determinado paciente, En este podemos ir agregando como detalle las citas que el paciente vaya agotando, con una descripción de los que se avanzó o se hizo en esta cita, hasta terminar el procedimiento.
 
 ## Usuarios
 
-![imagen](https://user-images.githubusercontent.com/54722249/69555777-16226100-0f7a-11ea-82b4-f63394c0deed.png)
+![image](https://user-images.githubusercontent.com/54722249/89112453-d24cf900-d430-11ea-8ffa-3f32660beddc.png)
 
 En esta pagina los usuarios con nivel de administrador podrán registrar nuevos usuarios, asi como modificar información de un determinado usuario o eliminarlo.
 
 
 # Consultas
 
-![imagen](https://user-images.githubusercontent.com/54722249/69556474-24bd4800-0f7b-11ea-9176-ec64d9b17343.png)
+![image](https://user-images.githubusercontent.com/54722249/89112472-14763a80-d431-11ea-967c-06aeaa218ffc.png)
 
 Esta es la Consulta de pacientes, en la cual se puede filtrar por id, nombres, apellidos, direccion y balance. Al pulsar el botón consultar, se cargaran en la tabla los datos que cumplan con los filtros dados. Cabe destacar que si no se coloca ningun filtro, se cargaran todos los datos de esta entidad.
 
