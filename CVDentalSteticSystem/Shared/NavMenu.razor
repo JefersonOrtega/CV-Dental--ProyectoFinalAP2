@@ -23,7 +23,7 @@
         </li>
 
         <li class="nav nav-item px-3">
-            <NavLink class="nav-link" href="" @onclick="()=>expanSubMenuR = !expanSubMenuR">
+            <NavLink class="nav-link" href="" @onclick="expanR">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Registros
             </NavLink>
 
@@ -83,7 +83,7 @@
             }
         </li>
         <li class="nav nav-item px-3">
-            <NavLink class="nav-link" href="" @onclick="()=>expanSubMenuC = !expanSubMenuC">
+            <NavLink class="nav-link" href="" @onclick="expanC">
                 <span class="oi oi-zoom-in" aria-hidden="true"></span> Consultas
             </NavLink>
 
@@ -143,7 +143,7 @@
 
         </li>
         <li class="nav nav-item px-3">
-            <NavLink class="nav-link" href="" @onclick="()=>expanSubMenuRpt = !expanSubMenuRpt">
+            <NavLink class="nav-link" href="" @onclick="expanRpt">
                 <span class="oi oi-zoom-in" aria-hidden="true"></span> Reportes
             </NavLink>
 
@@ -214,6 +214,44 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+
+
+        if (expanSubMenuC == true)
+        {
+            expanSubMenuR = false;
+            expanSubMenuRpt = false;
+        }
+
+        if (expanSubMenuRpt == true)
+        {
+            expanSubMenuR = false;
+            expanSubMenuC = false;
+        }
+
+    }
+
+    private void expanR()
+    {
+        expanSubMenuR = !expanSubMenuR;
+
+        expanSubMenuC = false;
+        expanSubMenuRpt = false;
+    }
+
+    private void expanC()
+    {
+        expanSubMenuC = !expanSubMenuC;
+
+        expanSubMenuR = false;
+        expanSubMenuRpt = false;
+    }
+
+    private void expanRpt()
+    {
+        expanSubMenuRpt = !expanSubMenuRpt;
+
+        expanSubMenuC = false;
+        expanSubMenuR = false;
     }
 
 }
