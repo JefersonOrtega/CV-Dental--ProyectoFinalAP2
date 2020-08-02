@@ -194,3 +194,11 @@ app {
         display: block;
     }
 }
+
+
+.sidebar-custom .profile .img{
+     
+    width: 203px;
+    height: 150px;
+    border-radius: 50%;
+}

@@ -1,13 +1,11 @@
 ﻿
-
-
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject IModalService Modal
-
+    
 
 <div class="top-row pl-4 navbar navbar-dark sidebar-custom">
-     <a class="navbar-brand" href="#">
-        <img src="/img/CVdental.png" width="203" height="170" alt="">
+     <a class="profile" href="#">
+        <img src="/img/CVdental.png" width="190" height="150"  alt="">
     </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -16,7 +14,7 @@
 
 
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass " @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -40,7 +38,7 @@
 
                     <li class="nav-item px-3">
                         <NavLink class="nav-link" href="tiposprocedimientos">
-                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> Tipos de Procedimientos
+                            <span class="oi oi-puzzle-piece" aria-hidden="true"></span> TiposProcedimientos
                         </NavLink>
                     </li>
 
@@ -90,7 +88,7 @@
 
                 @if (expanSubMenuC)
                 {
-                    <ul class="nav flex-column">
+                    <ul class="nav ">
                         <li class="nav-item px-3">
                             <NavLink class="nav-link" href="consultapacientes">
                                 <span class="oi oi-person" aria-hidden="true"></span> Pacientes

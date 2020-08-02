@@ -53,7 +53,7 @@
                     @*PacienteId*@
                     <div class="form-group">
                         <label>Paciente</label>
-                        <InputSelectNumber @bind-Value="Cobro.PacienteId" class="form-control">
+                        <InputSelectNumber @bind-Value="Cobro.PacienteId" class="form-control" @onfocusout="BuscarBalance">
                             <option value="" disabled selected>Seleccione un Paciente</option>
                             @foreach (var auxiliar in CargarPacientes())
                                 {
@@ -83,13 +83,6 @@
                         <ValidationMessage For="@(() => Cobro.Fecha)" />
                     </div>
 
-                    @*Balance
-                    <div class="form-group">
-                        <label>Balance</label>
-                        <InputNumber @bind-Value="@Cobro.Monto" class="form-control" />
-                        <ValidationMessage For="@(() => Cobro.Monto)" />
-                    </div>*@
-
                     @*ProcedimientosDetalle*@
                     <div class="card">
                         <div class="card-body">
@@ -100,6 +93,14 @@
                                     <label>Descripción</label>
                                     <div class="input-group">
                                         <InputText @bind-Value="Descripcion" class="form-control" />
+                                    </div>
+                                </div>
+
+                                @*Abono*@
+                                <div class="form-group ">
+                                    <label>Abono</label>
+                                    <div class="input-group">
+                                        <InputNumber @bind-Value="Abono" class="form-control" />
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">
                                                 <i class="oi oi-plus" aria-hidden="true" /> Agregar
@@ -122,11 +123,11 @@
                                     @foreach (var item in Cobro.CobroDetalles)
                                     {
                                         <tr>
-
                                             <td>@Cobro.CobroId</td>
                                             <td>@paciente.Nombres  @paciente.Apellidos</td>
                                             <td>@item.Descripcion</td>
-                                            <td><InputNumber @bind-Value="@Cobro.Monto" class="form-control" /></td>
+                                            <td>@item.Abono</td>
+
                                             <td>
                                                 <button type="button" class="btn btn-danger" @onclick="@(() => EliminarDetalle(item))">
                                                     <span class="oi oi-x col"></span>
@@ -134,17 +135,25 @@
                                             </td>
                                         </tr>
                                     }
+                                   
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    @*Monto
-        <div class="form-group">
-            <label>Monto</label>
-            <InputNumber readOnly @bind-Value="(() => CargarPacientes().Where(p => p.PacienteId == Cobro.PacienteId).Select(p => p.Balance)
-                                               .FirstOrDefault())" class="form-control" />
-        </div>*@
+
+                    @*Balance Paciente*@
+                    <div class="form-group">
+                        <label>Balance</label>
+                        <InputNumber readOnly @bind-Value="Balance" class="form-control" />
+                    </div>
+
+                    @*Monto*@
+                    <div class="form-group">
+                        <label>Monto</label>
+                        <InputNumber readOnly @bind-Value="Cobro.Monto" class="form-control" />
+                        <ValidationMessage For="@(()=>Cobro.Monto)" />
+                    </div>
                 </form>
 
             </div>
@@ -168,12 +177,18 @@
 
     public bool EsAutorizado = false;
     private string Descripcion = "";
+    private decimal Abono = 0;
+    private decimal Balance = 0;
 
-    Pacientes paciente = new Pacientes();
+    Pacientes paciente;
 
     public void BuscarPaciente()
     {
         paciente = PacientesBLL.Buscar(Cobro.PacienteId);
+    }
+    public void BuscarBalance()
+    {
+        Balance = PacientesBLL.Buscar(Cobro.PacienteId).Balance;
     }
 
     protected override void OnInitialized()
@@ -250,10 +265,21 @@
 
         if (Descripcion != "")
         {
-            Cobro.CobroDetalles.Add(new CobroDetalles
+            if (Abono != 0)
             {
-                Descripcion = this.Descripcion
-            });
+                Cobro.CobroDetalles.Add(new CobroDetalles
+                {
+                    Descripcion = this.Descripcion,
+                    Abono = this.Abono
+                });
+
+                Cobro.Monto += Abono;
+            }
+            else
+            {
+                toast.ShowWarning("Es Necesario introducir un abono");
+            }
+
         }
         else
         {
