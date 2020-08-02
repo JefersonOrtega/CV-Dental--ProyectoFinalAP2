@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CVDentalSteticSystem.Migrations
 {
-    public partial class Migracion_Inicial : Migration
+    public partial class Primera : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -145,6 +145,7 @@ namespace CVDentalSteticSystem.Migrations
                 {
                     CobroDetallesId = table.Column<int>(nullable: false),
                     CobroId = table.Column<int>(nullable: false),
+                    Abono = table.Column<decimal>(nullable: false),
                     Descripcion = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -181,9 +182,14 @@ namespace CVDentalSteticSystem.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Seguros",
+                columns: new[] { "SeguroId", "Nombre" },
+                values: new object[] { 1, "No Posee" });
+
+            migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Fecha", "NivelAcceso", "Nombres", "Usuario" },
-                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 7, 31, 11, 56, 53, 683, DateTimeKind.Local).AddTicks(5914), "Administrador", "admin", "admin" });
+                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 8, 1, 18, 37, 42, 711, DateTimeKind.Local).AddTicks(9954), "Administrador", "admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcedimientosDetalles_ProcedimeintoDetalleId",

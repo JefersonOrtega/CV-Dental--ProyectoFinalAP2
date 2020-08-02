@@ -5,8 +5,10 @@
 @inject IModalService Modal
 
 
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">CVDentalSteticSystem</a>
+<div class="top-row pl-4 navbar navbar-dark sidebar-custom">
+     <a class="navbar-brand" href="#">
+        <img src="/img/CVdental.png" width="203" height="170" alt="">
+    </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -167,8 +169,6 @@
 
         </li>
 
-
-        //Arreglar
         <div class="align-bottom pl-4 navbar navbar-dark">
             <li class="nav-item px-3">
                 @if (authenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated)

@@ -47,6 +47,9 @@ namespace CVDentalSteticSystem.Migrations
                     b.Property<int>("CobroDetallesId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("Abono")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("CobroId")
                         .HasColumnType("INTEGER");
 
@@ -196,6 +199,13 @@ namespace CVDentalSteticSystem.Migrations
                     b.HasKey("SeguroId");
 
                     b.ToTable("Seguros");
+
+                    b.HasData(
+                        new
+                        {
+                            SeguroId = 1,
+                            Nombre = "No Posee"
+                        });
                 });
 
             modelBuilder.Entity("CVDentalSteticSystem.Models.TipoCitas", b =>
@@ -277,7 +287,7 @@ namespace CVDentalSteticSystem.Migrations
                         {
                             UsuarioId = 1,
                             Contrasena = "YQBkAG0AaQBuAA==",
-                            Fecha = new DateTime(2020, 7, 31, 11, 56, 53, 683, DateTimeKind.Local).AddTicks(5914),
+                            Fecha = new DateTime(2020, 8, 1, 18, 37, 42, 711, DateTimeKind.Local).AddTicks(9954),
                             NivelAcceso = "Administrador",
                             Nombres = "admin",
                             Usuario = "admin"

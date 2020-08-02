@@ -11,6 +11,7 @@ namespace CVDentalSteticSystem.Models
         [Key]
         public int CobroDetallesId { get; set; }
         public int CobroId { get; set; }
+        public decimal Abono { get; set; }
         public string Descripcion { get; set; }
     }
 }

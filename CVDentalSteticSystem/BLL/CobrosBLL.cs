@@ -81,9 +81,9 @@ namespace CVDentalSteticSystem.BLL
             var anterior = CobrosBLL.Buscar(cobros.CobroId);
             try
             {
-                /*Pacientes paciente = PacientesBLL.Buscar(cobros.PacienteId);
-                paciente.Balance += anterior.Monto; //todo: Revisar funcionamiento
-                paciente.Balance -= cobros.Monto;*/
+                //Pacientes paciente = PacientesBLL.Buscar(cobros.PacienteId);
+                //paciente.Balance += anterior.Monto; //todo: Revisar funcionamiento
+                //paciente.Balance -= cobros.Monto;
 
                 foreach (var item in anterior.CobroDetalles)
                 {
@@ -207,28 +207,34 @@ namespace CVDentalSteticSystem.BLL
             return lista;
         }
 
-        public static void PagarMonto(int id, decimal monto)
+        //public static void PagarMonto(int id, decimal abono)
+        //{
+        //    Contexto contexto = new Contexto();
+        //    var paciente = PacientesBLL.Buscar(id);
+
+        //    try
+        //    {
+        //        if (paciente != null)
+        //        {
+        //            paciente.Balance -= abono;
+        //            abono -= paciente.Balance;
+        //            PacientesBLL.Guardar(paciente);
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        contexto.Dispose();
+        //    }
+        //}
+
+        public static void AumentarMonto(int id, decimal monto)
         {
-            Contexto contexto = new Contexto();
-            var paciente = PacientesBLL.Buscar(id);
 
-            try
-            {
-                if(paciente != null)
-                {
-                    paciente.Balance -= monto;
-                    PacientesBLL.Guardar(paciente);
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            finally
-            {
-                contexto.Dispose();
-            }
         }
     }
 }

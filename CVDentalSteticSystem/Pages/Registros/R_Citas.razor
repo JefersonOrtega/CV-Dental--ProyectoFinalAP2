@@ -65,9 +65,12 @@
 
                     @*Estado*@
                     <div class="form-group">
-                        <label>Estado</label>
-                        <InputCheckbox @bind-Value="Cita.Estado" class="form-control" />
+                        <label>Concluida</label>
+                        <InputCheckbox @bind-Value="Cita.Estado" class="form-control" style="width: 3%;"/>
                         <ValidationMessage For="@(()=>Cita.Estado)" />
+                        <small>Marcada = concluida</small>
+                        <br/>
+                        <small>No marcada = en proceso</small>
                     </div>
 
                     @*PacienteId*@
