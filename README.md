@@ -53,7 +53,8 @@ Las demás consultas son similares a esta, solo variando parte de sus filtros.
 # Autores del Proyecto
 
 Jeferson Raul Ortega Brito ------- 2017-0595
-Espacio para Nata
+
+Natanael Ureña Fernández ------- 2019-0454
 
 # Herramientas Empleadas en este proyecto
 
