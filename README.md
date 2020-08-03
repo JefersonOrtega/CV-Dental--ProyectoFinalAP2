@@ -59,6 +59,9 @@ En este registro podremos crear los tipos de seguros que tendran cobertura para 
 
 ![cobros](https://user-images.githubusercontent.com/31710186/89184717-3671d900-d567-11ea-914d-fb94646c9258.PNG)
 
+En este registro se aplicaran los cobros a los pacientes en forma de abonos, se guardaran tanto los cobros, como tambien se podran modificar y eliminar.
+En base a este registro se le iran restando, en base a los cobros, el balance cargado a cada paciente.
+
 # Consultas
 
 ![image](https://user-images.githubusercontent.com/54722249/89112472-14763a80-d431-11ea-967c-06aeaa218ffc.png)
