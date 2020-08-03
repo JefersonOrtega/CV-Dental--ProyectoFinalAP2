@@ -125,11 +125,11 @@ namespace CVDentalSteticSystem.BLL.Tests
         }
 
         [TestMethod()]
-        public void GetCitasTest()
+        public void GetCobrosTest()
         {
             bool paso = false;
 
-            List<Cobros> lista = CobrosBLL.GetCitas();
+            List<Cobros> lista = CobrosBLL.GetCobros();
 
             if (lista != null)
                 paso = true;

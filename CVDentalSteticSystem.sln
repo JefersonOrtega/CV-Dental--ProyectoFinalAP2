@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVDentalSteticSystem", "CVDentalSteticSystem\CVDentalSteticSystem.csproj", "{D9B8E9F2-A9A9-45C7-A4AE-97E0C4C9151B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CVDentalSteticSystemTests", "CVDentalSteticSystemTests\CVDentalSteticSystemTests.csproj", "{41096CBB-3706-44CD-AD10-28E3221FAFE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CVDentalSteticSystemTests", "CVDentalSteticSystemTests\CVDentalSteticSystemTests.csproj", "{41096CBB-3706-44CD-AD10-28E3221FAFE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,35 @@
+﻿@page "/ReporteCitas"
+
+@using Reportes
+@inject IJSRuntime js
+
+@if (Data is { })
+{
+    <object data="@pdfContent" width="1500" height="600" name="_blank"></object>
+}
+
+@code {
+    [Parameter]
+    public List<Citas> lista { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    byte[] Data;
+    string pdfContent = "";
+
+    protected override void OnInitialized()
+    {
+        VerReporte();
+    }
+
+    public void VerReporte()
+    {
+        CitasReport citas = new CitasReport();
+
+        Data = citas.Reporte(lista);
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(Data);
+
+    }
+}

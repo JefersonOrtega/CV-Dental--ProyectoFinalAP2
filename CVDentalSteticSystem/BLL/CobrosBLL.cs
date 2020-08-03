@@ -187,7 +187,7 @@ namespace CVDentalSteticSystem.BLL
             return lista;
         }
 
-        public static List<Cobros> GetCitas()
+        public static List<Cobros> GetCobros()
         {
             List<Cobros> lista = new List<Cobros>();
             Contexto contexto = new Contexto();

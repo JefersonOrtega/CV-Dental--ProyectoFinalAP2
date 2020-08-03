@@ -1,0 +1,35 @@
+﻿@page "/ReporteSeguros"
+
+@using Reportes
+@inject IJSRuntime js
+
+@if (Data is { })
+{
+    <object data="@pdfContent" width="1500" height="600" name="_blank"></object>
+}
+
+@code {
+    [Parameter]
+    public List<Seguros> lista { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    byte[] Data;
+    string pdfContent = "";
+
+    protected override void OnInitialized()
+    {
+        VerReporte();
+    }
+
+    public void VerReporte()
+    {
+        SegurosReport seguros = new SegurosReport();
+
+        Data = seguros.Reporte(lista);
+
+        pdfContent = "data:application/pdf;base64,";
+        pdfContent += System.Convert.ToBase64String(Data);
+
+    }
+}
