@@ -44,7 +44,7 @@ namespace CVDentalSteticSystem.BLL
             return encontrado;
         }
 
-        private static bool Insertar(Seguros seguro)
+        public static bool Insertar(Seguros seguro)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -66,7 +66,7 @@ namespace CVDentalSteticSystem.BLL
             return paso;
         }
 
-        private static bool Modificar(Seguros seguro)
+        public static bool Modificar(Seguros seguro)
         {
             bool paso = false;
             Contexto contexto = new Contexto();

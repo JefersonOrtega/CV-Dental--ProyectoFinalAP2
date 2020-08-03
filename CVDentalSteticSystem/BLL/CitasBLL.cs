@@ -44,7 +44,7 @@ namespace CVDentalSteticSystem.BLL
             return encontrado;
         }
 
-        private static bool Insertar(Citas cita)
+        public static bool Insertar(Citas cita)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -66,7 +66,7 @@ namespace CVDentalSteticSystem.BLL
             return paso;
         }
 
-        private static bool Modificar(Citas cita)
+        public static bool Modificar(Citas cita)
         {
             bool paso = false;
             Contexto contexto = new Contexto();

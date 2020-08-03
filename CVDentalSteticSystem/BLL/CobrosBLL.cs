@@ -46,7 +46,7 @@ namespace CVDentalSteticSystem.BLL
             return encontrado;
         }
 
-        private static bool Insertar(Cobros cobros)
+        public static bool Insertar(Cobros cobros)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -73,7 +73,7 @@ namespace CVDentalSteticSystem.BLL
             return paso;
         }
 
-        private static bool Modificar(Cobros cobros)
+        public static bool Modificar(Cobros cobros)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -231,11 +231,6 @@ namespace CVDentalSteticSystem.BLL
         //        contexto.Dispose();
         //    }
         //}
-
-        public static void AumentarMonto(int id, decimal monto)
-        {
-
-        }
     }
 }
 
