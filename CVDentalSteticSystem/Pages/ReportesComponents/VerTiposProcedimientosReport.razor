@@ -40,9 +40,17 @@
     byte[] Data;
     string pdfContent = "";
 
+    public bool EsAutorizado = false;
+
     protected override void OnInitialized()
     {
         VerReporte();
+
+        if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Administrador") ||
+            AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.IsInRole("Normal"))
+        {
+            EsAutorizado = true;
+        }
     }
 
     public void VerReporte()
