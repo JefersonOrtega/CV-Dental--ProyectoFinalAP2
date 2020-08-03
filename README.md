@@ -39,12 +39,25 @@ En esta pagina los usuarios con nivel de administrador podrán registrar nuevos 
 
 ## Citas
 
+![citas](https://user-images.githubusercontent.com/31710186/89184713-35d94280-d567-11ea-8398-c140954f017f.PNG)
+
+En este registro podremos crear nuevas citas, Las cuales para poder Guardar no debe coincidir la hora de ese dia, con la hora de una cita ya programada para el mismo dia. Además nos permite Eliminar o Modificar Citas ya creadas.
+
 ## Tipo de Citas
+
+![tipo_citas](https://user-images.githubusercontent.com/31710186/89184721-370a6f80-d567-11ea-810e-93dce77a25e2.PNG)
+
+En este registro podremos crear los tipos de citas, ademas de permitirnos Eliminar o Modificar tipos de citas ya creadas.
 
 ## Seguros
 
+![seguros](https://user-images.githubusercontent.com/31710186/89184720-370a6f80-d567-11ea-8245-56f969d63e1f.PNG)
+
+En este registro podremos crear los tipos de seguros que tendran cobertura para los pacientes. Este ademas de crearlos, nos permitira eliminar o modificar cualquier seguro ya creado.
+
 ## Cobros
 
+![cobros](https://user-images.githubusercontent.com/31710186/89184717-3671d900-d567-11ea-914d-fb94646c9258.PNG)
 
 # Consultas
 
