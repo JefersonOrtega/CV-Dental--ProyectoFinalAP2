@@ -37,6 +37,14 @@ Esta página permite al usuario guardar la informacion sobre un determinado proc
 
 En esta pagina los usuarios con nivel de administrador podrán registrar nuevos usuarios, asi como modificar información de un determinado usuario o eliminarlo.
 
+## Citas
+
+## Tipo de Citas
+
+## Seguros
+
+## Cobros
+
 
 # Consultas
 
@@ -49,6 +57,7 @@ Cuenta con una sumatoria de los balances.
 Además cuenta con un botón de imprimir el cual nos imprime un reporte que tambien cumple con los filtros realizados en la consulta.
 
 Las demás consultas son similares a esta, solo variando parte de sus filtros.
+
 
 # Autores del Proyecto
 
