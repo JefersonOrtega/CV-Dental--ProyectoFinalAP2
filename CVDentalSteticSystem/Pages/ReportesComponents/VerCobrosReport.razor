@@ -1,12 +1,34 @@
-﻿@page "/ReporteProcedimientos"
+﻿@page "/ReporteCobros"
 
 @using Reportes
 @inject IJSRuntime js
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
-@if (Data is { })
-{
-    <object data="@pdfContent" width="1500" height="600"></object>
-}
+<AuthorizeView>
+
+
+    <NotAuthorized>
+        <p class="display-4 text-center">Usted no esta autorizado para acceder a esta pagina</p>
+
+    </NotAuthorized>
+
+    <Authorized>
+        @if (!EsAutorizado)
+        {
+            <p class="display-3 text-center">Usted no tiene el nivel necesario para acceder a esta pagina</p>
+        }
+    </Authorized>
+
+</AuthorizeView>
+
+@if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
+  && EsAutorizado)
+  {
+    @if (Data is { })
+    {
+        <object data="@pdfContent" width="1500" height="600"></object>
+    }
+  }
 
 @code {
     [Parameter]
