@@ -121,7 +121,8 @@ namespace CVDentalSteticSystem.BLL
             try
             {
                 usuario = contexto.Usuarios.Find(id);
-                usuario.Contrasena = Usuarios.DesEncriptar(usuario.Contrasena);
+                if(usuario!=null)
+                    usuario.Contrasena = Usuarios.DesEncriptar(usuario.Contrasena);
             }
             catch (Exception)
             {
