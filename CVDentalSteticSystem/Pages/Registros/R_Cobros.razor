@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <label>Cobro Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Cobro.CobroId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Cobro.CobroId" class="form-control col-4" min="0"/>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -53,7 +53,7 @@
                     @*PacienteId*@
                     <div class="form-group">
                         <label>Paciente</label>
-                        <InputSelectNumber @bind-Value="Cobro.PacienteId" class="form-control" @onfocusout="BuscarBalance">
+                        <InputSelectNumber @bind-Value="Cobro.PacienteId" class="form-control" @onfocusout="BuscarBalance" min="0">
                             <option value="" disabled selected>Seleccione un Paciente</option>
                             @foreach (var auxiliar in CargarPacientes())
                                 {
@@ -61,19 +61,6 @@
                                 }
                         </InputSelectNumber>
                         <ValidationMessage For="@(() => Cobro.PacienteId)" />
-                    </div>
-
-                    @*TipoProcedimientoId*@
-                    <div class="form-group">
-                        <label>Tipo de Procedimiento Id</label>
-                        <InputSelectNumber @bind-Value="Cobro.ProcedimientoId" class="form-control">
-                            <option value="" disabled selected>Seleccione una tipo de procedimiento</option>
-                            @foreach (var auxiliar in CargarTiposProcedimientos())
-                                {
-                                <option value="@auxiliar.TipoProcedimientoId">@auxiliar.NombreProcedimiento</option>
-                                }
-                        </InputSelectNumber>
-                        <ValidationMessage For="@(()=>Cobro.ProcedimientoId)" />
                     </div>
 
                     @*Fecha*@
@@ -100,7 +87,7 @@
                                 <div class="form-group ">
                                     <label>Abono</label>
                                     <div class="input-group">
-                                        <InputNumber @bind-Value="Abono" class="form-control" />
+                                        <InputNumber @bind-Value="Abono" class="form-control" min="0"/>
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-primary" @onclick="AgregarDetalle">
                                                 <i class="oi oi-plus" aria-hidden="true" /> Agregar
@@ -222,7 +209,8 @@
             }
             else
             {
-                toast.ShowWarning("No encontrado");
+                toast.ShowWarning("No Encontrado");
+                Nuevo();
             }
 
         }

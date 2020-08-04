@@ -45,7 +45,7 @@ namespace CVDentalSteticSystem.BLL.Tests
             TipoCitas tipoCitas = new TipoCitas();
             bool paso = false;
 
-            tipoCitas.TipoCitaId = 2;
+            tipoCitas.TipoCitaId = 1;
             tipoCitas.Nombre = "Agendada";
             tipoCitas.Descripcion = "Esta es una breve descripcion";
 
@@ -67,7 +67,7 @@ namespace CVDentalSteticSystem.BLL.Tests
         public void EliminarTest()
         {
             bool paso = false;
-            paso = TipoCitasBLL.Eliminar(2);
+            paso = TipoCitasBLL.Eliminar(1);
 
             Assert.AreEqual(paso, true);
         }

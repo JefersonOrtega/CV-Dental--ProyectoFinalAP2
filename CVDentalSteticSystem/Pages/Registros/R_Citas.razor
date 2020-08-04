@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 <label>Cita Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Cita.CitaId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Cita.CitaId" class="form-control col-4" min="0"/>
                                     <div class="input-group-  append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -138,6 +138,7 @@
 
     private void Buscar()
     {
+
         if (Cita.CitaId > 0)
         {
             var encontrado = CitasBLL.Buscar(Cita.CitaId);
@@ -149,6 +150,7 @@
             else
             {
                 toast.ShowWarning("No encontrado");
+                Nuevo();
             }
         }
     }

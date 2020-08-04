@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <label>Tipo de Procedimiento Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="tipoProcedimiento.TipoProcedimientoId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="tipoProcedimiento.TipoProcedimientoId" class="form-control col-4" min="0"/>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -68,7 +68,7 @@
                     @*Precio*@
                     <div class="form-group">
                         <label>Precio</label>
-                        <InputNumber @bind-Value="tipoProcedimiento.Precio" class="form-control" />
+                        <InputNumber @bind-Value="tipoProcedimiento.Precio" class="form-control" min="0" />
                         <ValidationMessage For="@(()=>tipoProcedimiento.Precio)" />
                     </div>
                 </form>
@@ -114,13 +114,18 @@
 
     private void Buscar()
     {
+
         if (tipoProcedimiento.TipoProcedimientoId > 0)
         {
             var encontrado = TiposProcedimientosBLL.Buscar(tipoProcedimiento.TipoProcedimientoId);
             if (encontrado != null)
                 this.tipoProcedimiento = encontrado;
             else
+            {
                 toast.ShowWarning("No Encontrado");
+                Nuevo();
+            }
+
         }
     }
 

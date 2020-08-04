@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label>Usuario Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Usuario.UsuarioId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Usuario.UsuarioId" class="form-control col-4" min="0"/>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -140,7 +140,10 @@
             if (encontrado != null)
                 this.Usuario = encontrado;
             else
-                toast.ShowWarning("No encontrado");
+            {
+                toast.ShowWarning("No Encontrado");
+                Nuevo();
+            }
         }
     }
 

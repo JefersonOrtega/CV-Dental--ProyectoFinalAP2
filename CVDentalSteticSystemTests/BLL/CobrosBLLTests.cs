@@ -24,7 +24,6 @@ namespace CVDentalSteticSystem.BLL.Tests
             cobros.ProcedimientoId = 1;
             cobros.Monto = 500;
 
-            cobroDetalles.CobroId = 0;
             cobroDetalles.CobroId = 1;
             cobroDetalles.Descripcion = "Breve descripcion";
             cobroDetalles.Abono = 250;

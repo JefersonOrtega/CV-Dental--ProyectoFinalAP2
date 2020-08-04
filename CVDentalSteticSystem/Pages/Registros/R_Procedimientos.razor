@@ -42,7 +42,7 @@
                             <div class="form-group">
                                 <label>Procedimiento Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Procedimiento.ProcedimientoId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Procedimiento.ProcedimientoId" class="form-control col-4" min="0"/>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -54,7 +54,7 @@
                     @*PacienteId*@
                     <div class="form-group">
                         <label>Paciente</label>
-                        <InputSelectNumber @bind-Value="Procedimiento.PacienteId" class="form-control">
+                        <InputSelectNumber @bind-Value="Procedimiento.PacienteId" class="form-control" min="0">
                             <option value="" disabled selected>Seleccione un Paciente</option>
                             @foreach (var auxiliar in CargarPacientes())
                                 {
@@ -68,7 +68,7 @@
                     @*TipoProcedimientoId*@
                     <div class="form-group">
                         <label>Tipo de Procedimiento Id</label>
-                        <InputSelectNumber @bind-Value="Procedimiento.TipoProcedimientoId" class="form-control">
+                        <InputSelectNumber @bind-Value="Procedimiento.TipoProcedimientoId" class="form-control" min="0">
                             <option value="" disabled selected>Seleccione una tipo de procedimiento</option>
                             @foreach (var auxiliar in CargarTiposProcedimientos())
                                 {
@@ -200,7 +200,7 @@
             EsAutorizado = true;
         }
 
-        
+
     }
 
     public void Nuevo()
@@ -210,6 +210,7 @@
 
     private void Buscar()
     {
+
         if (Procedimiento.ProcedimientoId > 0)
         {
             var encontrado = ProcedimientosBLL.Buscar(Procedimiento.ProcedimientoId);
@@ -220,7 +221,10 @@
                 BuscarPaciente();
             }
             else
-                toast.ShowWarning("No encontrado");
+            {
+                toast.ShowWarning("No Encontrado");
+                Nuevo();
+            }
         }
     }
 
@@ -259,7 +263,7 @@
     public List<Citas> CargarCitas()
     {
         List<Citas> lista = new List<Citas>();
-        
+
         try
         {
             lista = CitasBLL.GetList(c=>c.PacienteId == Procedimiento.PacienteId && c.Estado==false);

@@ -40,7 +40,7 @@
                             <div class="form-group">
                                 <label>Paciente Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Paciente.PacienteId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Paciente.PacienteId" class="form-control col-4" min="0"/>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -168,6 +168,7 @@
 
     private void Buscar()
     {
+
         if (Paciente.PacienteId > 0)
         {
             var encontrado = PacientesBLL.Buscar(Paciente.PacienteId);
@@ -175,7 +176,10 @@
             if (encontrado != null)
                 this.Paciente = encontrado;
             else
-                toast.ShowWarning("No encontrado");
+            {
+                toast.ShowWarning("No Encontrado");
+                Nuevo();
+            }
         }
     }
 

@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <label>Seguro Id</label>
                                 <div class="input-group">
-                                    <InputNumber @bind-Value="Seguro.SeguroId" class="form-control col-4" />
+                                    <InputNumber @bind-Value="Seguro.SeguroId" class="form-control col-4" min="0"/>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-primary input-group-text" @onclick="Buscar">Buscar</button>
                                     </div>
@@ -110,6 +110,7 @@
             else
             {
                 toast.ShowWarning("No Encontrado");
+                Nuevo();
             }
         }
     }
