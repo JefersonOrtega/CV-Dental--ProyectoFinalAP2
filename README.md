@@ -8,7 +8,7 @@ Al ingresar al sistema usted deberá loggearse para poder tener acceso a los div
 
 Luego le aparecerá la siguiente pagina con el Login
 
-
+![Login](https://user-images.githubusercontent.com/54722249/89422390-43c3ca80-d703-11ea-85aa-3ea7097f3b06.png)
 
 En esta página debemos ingresar el Usuario y la contraseña de un Usuario previamente registrados para poder acceder, en caso de no haber creado ningun usuario o ser la primera vez que accede al sistema 
 el Usuario será: admin y la contraseña: admin. Luego de ingresados los datos se accede pulsando el botón de Ingresar.
