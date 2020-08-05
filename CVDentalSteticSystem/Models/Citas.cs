@@ -15,7 +15,9 @@ namespace CVDentalSteticSystem.Models
         public DateTime Fecha { get; set; }
         public bool Estado { get; set; }
         public string Observacion { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un paciente!")]
         public int PacienteId { get; set; }
+        [Required(ErrorMessage = "Debe seleccionar un tipo de cita!")]
         public int TipoCitaId { get; set; }
     }
 }
