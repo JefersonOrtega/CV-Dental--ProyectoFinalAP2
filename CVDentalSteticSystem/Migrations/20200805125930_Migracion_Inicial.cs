@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CVDentalSteticSystem.Migrations
 {
-    public partial class Primera : Migration
+    public partial class Migracion_Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     CitaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(nullable: false),
                     Estado = table.Column<bool>(nullable: false),
                     Observacion = table.Column<string>(nullable: true),
@@ -29,7 +29,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     CobroId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PacienteId = table.Column<int>(nullable: false),
                     ProcedimientoId = table.Column<int>(nullable: false),
                     Fecha = table.Column<DateTime>(nullable: false),
@@ -45,7 +45,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     PacienteId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombres = table.Column<string>(nullable: false),
                     Apellidos = table.Column<string>(nullable: false),
                     Direccion = table.Column<string>(nullable: false),
@@ -68,7 +68,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     ProcedimientoId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PacienteId = table.Column<int>(nullable: false),
                     TipoProcedimientoId = table.Column<int>(nullable: false),
                     Estado = table.Column<string>(nullable: false),
@@ -85,7 +85,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     SeguroId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -98,7 +98,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     TipoCitaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(maxLength: 256, nullable: false),
                     Descripcion = table.Column<string>(maxLength: 256, nullable: false)
                 },
@@ -112,7 +112,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     TipoProcedimientoId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     NombreProcedimiento = table.Column<string>(nullable: false),
                     Descripcion = table.Column<string>(nullable: false),
                     Precio = table.Column<decimal>(nullable: false)
@@ -127,7 +127,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     UsuarioId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(nullable: false),
                     Nombres = table.Column<string>(maxLength: 50, nullable: false),
                     Usuario = table.Column<string>(maxLength: 30, nullable: false),
@@ -164,7 +164,7 @@ namespace CVDentalSteticSystem.Migrations
                 columns: table => new
                 {
                     ProcedimientosDetalleId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProcedimientoId = table.Column<int>(nullable: false),
                     CitaId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(nullable: false),
@@ -189,7 +189,7 @@ namespace CVDentalSteticSystem.Migrations
             migrationBuilder.InsertData(
                 table: "Usuarios",
                 columns: new[] { "UsuarioId", "Contrasena", "Fecha", "NivelAcceso", "Nombres", "Usuario" },
-                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 8, 1, 18, 37, 42, 711, DateTimeKind.Local).AddTicks(9954), "Administrador", "admin", "admin" });
+                values: new object[] { 1, "YQBkAG0AaQBuAA==", new DateTime(2020, 8, 5, 8, 59, 30, 400, DateTimeKind.Local).AddTicks(1019), "Administrador", "admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProcedimientosDetalles_ProcedimeintoDetalleId",

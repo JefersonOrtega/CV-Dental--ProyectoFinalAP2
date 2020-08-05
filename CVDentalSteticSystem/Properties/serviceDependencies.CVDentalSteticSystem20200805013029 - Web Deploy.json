@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/cvdentalsteticsystemdbserver/databases/CVDentalSteticSystem_db",
+      "type": "mssql.azure",
+      "connectionId": "CVDentalSteticDB",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
