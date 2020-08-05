@@ -12,7 +12,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
 {
     public class CitasReport
     {
-        int columnas = 10;
+        int columnas = 6;
 
         Document document = new Document();
         PdfPTable pdfTable;
@@ -39,12 +39,12 @@ namespace CVDentalSteticSystem.Pages.Reportes
 
             float[] anchoColumnas = new float[columnas];
 
-            anchoColumnas[0] = 50; 
-            anchoColumnas[1] = 60;
-            anchoColumnas[2] = 70; 
-            anchoColumnas[3] = 100;
-            anchoColumnas[4] = 80; 
-            anchoColumnas[5] = 80;
+            anchoColumnas[0] = 50; //Id
+            anchoColumnas[1] = 60; //Fecha
+            anchoColumnas[2] = 70; //Estado
+            anchoColumnas[3] = 100; //Observacion
+            anchoColumnas[4] = 80;  //IdPaciente
+            anchoColumnas[5] = 80; //TipoCita
 
             pdfTable.SetWidths(anchoColumnas);
 
@@ -172,7 +172,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
                 pdfCell.BackgroundColor = BaseColor.White;
                 pdfTable.AddCell(pdfCell);
 
-                var TipoCitas = SegurosBLL.Buscar(item.TipoCitaId).Nombre;
+                var TipoCitas = TipoCitasBLL.Buscar(item.TipoCitaId).Nombre;
                 pdfCell = new PdfPCell(new Phrase(TipoCitas, _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;

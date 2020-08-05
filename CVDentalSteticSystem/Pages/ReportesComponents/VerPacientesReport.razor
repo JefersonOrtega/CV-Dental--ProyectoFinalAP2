@@ -1,5 +1,6 @@
 ﻿@page "/ReportePacientes"
 
+
 @using Reportes
 @inject IJSRuntime js
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -22,13 +23,13 @@
 </AuthorizeView>
 
 @if (AuthenticationStateProvider.GetAuthenticationStateAsync().Result.User.Identity.IsAuthenticated
-  && EsAutorizado)
-  {
+ && EsAutorizado)
+{
     @if (Data is { })
     {
         <object data="@pdfContent" width="1500" height="600" name="_blank"></object>
     }
-  }
+}
 @code {
     [Parameter]
     public List<Pacientes> lista { get; set; }

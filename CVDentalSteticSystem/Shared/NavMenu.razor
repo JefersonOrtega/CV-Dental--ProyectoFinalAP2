@@ -1,11 +1,14 @@
 ﻿
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject IModalService Modal
-    
+@inject IToastService toast
+@using CVDentalSteticSystem.BLL
+@using CVDentalSteticSystem.Pages.ReportesComponents
+
 
 <div class="top-row pl-4 navbar navbar-dark sidebar-custom">
-     <a class="profile" href="#">
-        <img id="im" src="/img/CVdental.png" width="190" height="150"  alt="">
+    <a class="profile" href="#">
+        <img id="im" src="/img/CVdental.png" width="190" height="150" alt="">
     </a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -66,7 +69,7 @@
                         </NavLink>
                     </li>
 
-                    
+
                     <li class="nav-item px-3">
                         <NavLink class="nav-link" href="Cobros">
                             <span class="oi oi-dollar" aria-hidden="true"></span> Cobros
@@ -126,7 +129,7 @@
                         </NavLink>
                     </li>
 
-                    
+
                     <li class="nav-item px-3">
                         <NavLink class="nav-link" href="ConsultaCobros">
                             <span class="oi oi-dollar" aria-hidden="true"></span> Cobros
@@ -151,50 +154,51 @@
             {
                 <ul class="nav ">
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReportePacientes">
+                        <NavLink class="nav-link" @onclick="ReportePacientes">
                             <span class="oi oi-print" aria-hidden="true"></span> Pacientes
                         </NavLink>
                     </li>
 
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteTiposProcedimientos">
+                        <NavLink class="nav-link" @onclick="ReporteTiposProcedimientos">
                             <span class="oi oi-print" aria-hidden="true"></span> Tipos Procedimientos
                         </NavLink>
                     </li>
 
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteProcedimientos">
+                        <NavLink class="nav-link" @onclick="ReporteProcedimientos">
                             <span class="oi oi-print" aria-hidden="true"></span> Procedimientos
                         </NavLink>
                     </li>
 
-                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteUsuarios">
-                            <span class="oi oi-print" aria-hidden="true"></span> Usuarios
-                        </NavLink>
-                    </li>
 
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteCitas">
+                        <NavLink class="nav-link" @onclick="ReporteCitas">
                             <span class="oi oi-print" aria-hidden="true"></span> Citas
                         </NavLink>
                     </li>
 
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteSeguros">
+                        <NavLink class="nav-link" @onclick="ReporteSeguros">
                             <span class="oi oi-print" aria-hidden="true"></span> Seguros
                         </NavLink>
                     </li>
 
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteTipoCitas">
+                        <NavLink class="nav-link" @onclick="ReporteTipoCitas">
                             <span class="oi oi-print" aria-hidden="true"></span> TipoCitaS
                         </NavLink>
                     </li>
 
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="ReporteCobros">
+                        <NavLink class="nav-link" @onclick="ReporteCobros">
                             <span class="oi oi-print" aria-hidden="true"></span> Cobros
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" @onclick="ReporteUsuarios">
+                            <span class="oi oi-print" aria-hidden="true"></span> Usuarios
                         </NavLink>
                     </li>
                 </ul>
@@ -275,4 +279,131 @@
         expanSubMenuR = false;
     }
 
+    public void ReportePacientes()
+    {
+        List<Pacientes> lista = PacientesBLL.GetPacientes();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerPacientesReport>("Reporte de pacientes", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteUsuarios()
+    {
+        List<Usuarios> lista = UsuariosBLL.GetUsuarios();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerUsuariosReport>("Reporte de usuarios", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteTiposProcedimientos()
+    {
+        List<TiposProcedimientos> lista = TiposProcedimientosBLL.GetTiposProcedimientos();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerTiposProcedimientosReport>("Reporte de Tipo de Procedimientos", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteProcedimientos()
+    {
+        List<Procedimientos> lista = ProcedimientosBLL.GetProcedimientos();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerProcedimientosReport>("Reporte de Procedimientos", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteCobros()
+    {
+        List<Cobros> lista = CobrosBLL.GetCobros();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerCobrosReport>("Reporte de Cobros", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteSeguros()
+    {
+        List<Seguros> lista = SegurosBLL.GetSeguros();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerSegurosReport>("Reporte de seguros", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteTipoCitas()
+    {
+        List<TipoCitas> lista = TipoCitasBLL.GetTipoCitas();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerTipoCitasReport>("Reporte de Tipos de Citas", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
+
+    public void ReporteCitas()
+    {
+        List<Citas> lista = CitasBLL.GetCitas();
+        if (lista.Count > 0)
+        {
+            var parameters = new ModalParameters();
+            parameters.Add("Lista", lista);
+
+            Modal.Show<VerCitasReport>("Reporte de Citas", parameters);
+        }
+        else
+        {
+            toast.ShowWarning("No hay datos para imprimir");
+        }
+    }
 }

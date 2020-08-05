@@ -115,7 +115,6 @@ namespace CVDentalSteticSystem.BLL.Tests
         public void GetCitasTest()
         {
             bool paso = false;
-
             List<Citas> lista = CitasBLL.GetCitas();
 
             if (lista != null)

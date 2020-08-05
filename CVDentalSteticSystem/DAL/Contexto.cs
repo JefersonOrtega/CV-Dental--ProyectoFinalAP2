@@ -42,6 +42,7 @@ namespace CVDentalSteticSystem.DAL
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
+
             modelBuilder.Entity<Seguros>()
                 .HasData(new Models.Seguros 
                 { 

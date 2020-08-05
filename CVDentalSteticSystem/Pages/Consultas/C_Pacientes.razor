@@ -84,8 +84,8 @@
                         <td>@item.Genero</td>
                         <td>@((((DateTime.Now - @item.FechaNacimiento).TotalDays) / 365).ToString("N1"))</td>
                         <td>@item.FechaRegistro</td>
-                        @*<td>@SegurosBLL.Buscar(@item.SeguroId).Nombre</td>*@
-                        <td>@item.SeguroId</td>
+                        <td>@SegurosBLL.Buscar(@item.SeguroId).Nombre</td>
+                       
                         <td>@item.Balance</td>
                     </tr>
                 }
