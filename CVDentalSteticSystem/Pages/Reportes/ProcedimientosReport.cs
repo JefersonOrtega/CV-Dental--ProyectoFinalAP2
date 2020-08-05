@@ -176,8 +176,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
                 pdfCell.BackgroundColor = BaseColor.White;
                 pdfTable.AddCell(pdfCell);
 
-                var Paciente = PacientesBLL.Buscar(item.PacienteId);
-                pdfCell = new PdfPCell(new Phrase(Paciente.Nombres+" "+Paciente.Apellidos,_fontStyle));
+                pdfCell = new PdfPCell(new Phrase(Paciente(item.PacienteId),_fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.White;
@@ -257,6 +256,16 @@ namespace CVDentalSteticSystem.Pages.Reportes
 
             pdfTable.CompleteRow();
             #endregion
+        }
+
+        public string Paciente(int id)
+        {
+            var paciente = PacientesBLL.Buscar(id);
+            if (paciente != null)
+                return (paciente.Nombres + " " + paciente.Apellidos);
+            else
+                return "Paciente eliminado";
+
         }
     }
 }

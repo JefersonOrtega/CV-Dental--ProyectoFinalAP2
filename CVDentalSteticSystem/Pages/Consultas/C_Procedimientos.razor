@@ -110,7 +110,7 @@
                     {
                         <tr>
                             <td>@item.ProcedimientoId</td>
-                            <td>@BuscarPaciente(item.PacienteId).Nombres @BuscarPaciente(item.PacienteId).Apellidos</td>
+                            <td>@Paciente(item.PacienteId)</td>
                             <td>@BuscarTipoProcedimiento(item.TipoProcedimientoId).NombreProcedimiento</td>
                             <td>@item.Estado</td>
                             <td>@item.Monto</td>
@@ -341,9 +341,14 @@
         }
     }
 
-    public Pacientes BuscarPaciente(int id)
+    public string Paciente(int id)
     {
-        return PacientesBLL.Buscar(id);
+        var paciente = PacientesBLL.Buscar(id);
+        if (paciente != null)
+            return (paciente.Nombres +" "+ paciente.Apellidos) ;
+        else
+            return "Paciente eliminado";
+
     }
 
     public TiposProcedimientos BuscarTipoProcedimiento(int id)
