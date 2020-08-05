@@ -2,11 +2,15 @@
 
 Siguiendo las instrucciones dadas a continuación el usuario podra manejar el sistema de una manera correcta, sin cometer errores algunos.
 
-Al ingresar al sistema usted deberá loggearse para poder tener acceso a los diversos componentes del sistema, para hacerlo puede hacer click en las siguientes opciones
+Al ingresar al sistema usted deberá loggearse para poder tener acceso a los diversos componentes del sistema, para hacerlo puede hacer click en una de las siguientes opciones
 
------------Insertar imagen del login
+![Como Loguearse](https://user-images.githubusercontent.com/54722249/89422223-0e1ee180-d703-11ea-825c-54c78f9c8041.png)
 
-En este registro debemos ingresar el Usuario y la contraseña de un Usuario previamente registrados para poder acceder, en caso de no haber creado ningun usuario o ser la primera vez que accede al sistema 
+Luego le aparecerá la siguiente pagina con el Login
+
+
+
+En esta página debemos ingresar el Usuario y la contraseña de un Usuario previamente registrados para poder acceder, en caso de no haber creado ningun usuario o ser la primera vez que accede al sistema 
 el Usuario será: admin y la contraseña: admin. Luego de ingresados los datos se accede pulsando el botón de Ingresar.
 
 Luego de ingresado se pueden cambiar los datos de este usuario. Además, sólo el administrador tiene acceso a editar, crear y consultar usuarios.
