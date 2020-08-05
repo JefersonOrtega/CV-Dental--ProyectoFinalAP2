@@ -12,7 +12,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
 {
     public class CobrosReport
     {
-        int columnas = 6;
+        int columnas = 5;
 
         Document document = new Document();
         PdfPTable pdfTable;
@@ -44,7 +44,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
             anchoColumnas[2] = 70; //Esta sera la fila 3 Tipo de Procedimiento
             anchoColumnas[3] = 100; //Esta sera la fila 4 Estaod
             anchoColumnas[4] = 80; //Monto
-            anchoColumnas[5] = 80; //Cobrado
+            
 
             pdfTable.SetWidths(anchoColumnas);
 
@@ -133,7 +133,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
             pdfCell.BackgroundColor = BaseColor.LightGray;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Tipo de Procedimiento", fontStyle));
+            pdfCell = new PdfPCell(new Phrase("Fecha", fontStyle));
             pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
             pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
             pdfCell.BackgroundColor = BaseColor.LightGray;
@@ -145,11 +145,7 @@ namespace CVDentalSteticSystem.Pages.Reportes
             pdfCell.BackgroundColor = BaseColor.LightGray;
             pdfTable.AddCell(pdfCell);
 
-            pdfCell = new PdfPCell(new Phrase("Fecha", fontStyle));
-            pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            pdfCell.BackgroundColor = BaseColor.LightGray;
-            pdfTable.AddCell(pdfCell);
+         
 
             pdfTable.CompleteRow();
             #endregion
@@ -168,13 +164,6 @@ namespace CVDentalSteticSystem.Pages.Reportes
 
                 var Paciente = PacientesBLL.Buscar(item.PacienteId);
                 pdfCell = new PdfPCell(new Phrase(Paciente.Nombres + " " + Paciente.Apellidos, _fontStyle));
-                pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-                pdfCell.BackgroundColor = BaseColor.White;
-                pdfTable.AddCell(pdfCell);
-
-                var TipoProcedimiento = TiposProcedimientosBLL.Buscar(item.ProcedimientoId);
-                pdfCell = new PdfPCell(new Phrase(TipoProcedimiento.NombreProcedimiento, _fontStyle));
                 pdfCell.HorizontalAlignment = Element.ALIGN_CENTER;
                 pdfCell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 pdfCell.BackgroundColor = BaseColor.White;

@@ -38,8 +38,8 @@
                     <select @bind="eleccion" class="form-control  col-4" placeholder="Seleccione un Filtro">
                         <option value="0">Id</option>
                         <option value="1">PacienteId</option>
-                        <option value="2">ProcedimientoId</option>
-                        <option value="3">Fecha</option>
+                        <option value="2">Fecha</option>
+                        <option value="3">Monto</option>
                     </select>
                 </div>
 
@@ -58,7 +58,6 @@
                     <tr>
                         <th>CobroId</th>
                         <th>PacienteId</th>
-                        <th>ProcedimientoId</th>
                         <th>Monto</th>
                         <th>Fecha</th>
                     </tr>
@@ -70,7 +69,6 @@
                         <tr>
                             <td>@item.CobroId</td>
                             <td>@item.PacienteId</td>
-                            <td>@item.ProcedimientoId</td>
                             <td>@item.Monto</td>
                             <td>@item.Fecha</td>
                         </tr>
@@ -185,21 +183,22 @@
                         break;
 
                     }
-                case 1: //Nombres
+                case 1:
                     {
                         //lista = CobrosBLL.GetList(c => c.PacienteId == listaPacientes.Select(p => p.Nombres.Equals(c.PacienteId)).FirstOrDefault());
                         ActualizarListaItems(numeroPagina);
                         break;
                     }
-                case 2: //Nombre de Usuario
+                case 2: 
                     {
                         //lista = CobrosBLL.GetList(p => p.Fecha == criterio);
                         ActualizarListaItems(numeroPagina);
                         break;
                     }
-                case 3: //Nivel de Acceso
+                case 3: //Monto
                     {
-                        //lista = CobrosBLL.GetList(p => p.Monto);
+                        decimal monto = Convert.ToDecimal(criterio);
+                        lista = CobrosBLL.GetList(p => p.Monto == monto);
                         ActualizarListaItems(numeroPagina);
                         break;
                     }
